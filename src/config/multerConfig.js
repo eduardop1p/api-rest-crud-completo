@@ -10,7 +10,7 @@ export default {
   },
   storage: diskStorage({
     destination: (req, file, cb) => {
-      cb(null, resolve(__dirname, '..', 'uploads', 'images'));
+      cb(null, resolve(__dirname, '..', '..', 'uploads', 'images'));
     },
     filename(req, file, cb) {
       cb(null, `${Date.now()}_${randomNumber()}${extname(file.originalname)}`);

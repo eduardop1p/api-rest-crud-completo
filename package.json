@@ -5,8 +5,9 @@
   "main": "sever.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon sever.js",
-    "start": "node sever.js"
+    "dev": "nodemon src/sever.js",
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "start": "node dist/sever.js"
   },
   "keywords": [],
   "author": "",
