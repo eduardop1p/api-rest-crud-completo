@@ -69,7 +69,7 @@ class App {
   corsOptions() {
     const whiteList = [
       'https://www.google.com',
-      'https://api-rest-crud-user.netlify.app/',
+      'https://eduardop1p.github.io/api-rest-crud-usuario-completo/',
       'http://localhost:4000',
       'http://localhost:5000',
     ];
