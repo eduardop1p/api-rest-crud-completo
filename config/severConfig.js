@@ -3,5 +3,5 @@ import dotEnv from 'dotenv';
 dotEnv.config();
 
 export default {
-  url: `http://localhost:${process.env.SEVER_PORT}`,
+  url: 'https://github.com/eduardop1p/api-rest-crud-usuario-completo.git',
 };
