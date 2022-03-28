@@ -51,8 +51,8 @@ class App {
 
   routes() {
     this.app.use('/', _homeRoutes2.default);
-    this.app.use('/user', _userRoutes2.default);
-    this.app.use('/foto', _fotoRoutes2.default);
+    this.app.use('/users', _userRoutes2.default);
+    this.app.use('/fotos', _fotoRoutes2.default);
     this.app.use('/login', _loginRouter2.default);
     this.app.use('/logout', _logoutRouter2.default);
   }

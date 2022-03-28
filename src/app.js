@@ -51,8 +51,8 @@ class App {
 
   routes() {
     this.app.use('/', homeRoutes);
-    this.app.use('/user', userRoutes);
-    this.app.use('/foto', fotoRoutes);
+    this.app.use('/users', userRoutes);
+    this.app.use('/fotos', fotoRoutes);
     this.app.use('/login', loginRoutes);
     this.app.use('/logout', logoutRoutes);
   }
