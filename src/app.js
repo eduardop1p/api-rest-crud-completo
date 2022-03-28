@@ -42,7 +42,7 @@ class App {
     this.app.use(cors(this.corsOptions()));
     this.app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.static(resolve(__dirname, 'uploads')));
+    this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
     this.app.use(express.json());
     this.app.use(this.sessionOptions);
     this.app.use(cookieParser());
