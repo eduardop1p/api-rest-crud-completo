@@ -1,1 +1,1 @@
-# API REST com CRUD completo.
+# API REST com CRUD de usuário completo.
