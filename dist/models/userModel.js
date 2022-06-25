@@ -123,7 +123,7 @@ exports. default = class {
       this.errors.push('Nome deve ter entre 3 e 9 caracteres.');
     }
 
-    if (!_validator.isEmail.call(void 0, this.body.email)) this.errors.push('E-mail inválido');
+    if (!_validator.isEmail.call(void 0, this.body.email)) this.errors.push('E-mail inválido.');
 
     if (this.body.password.length < 3 || this.body.password.length > 8) {
       this.errors.push('Senha deve ter entre 3 e 8 caracteres.');
