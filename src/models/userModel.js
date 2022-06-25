@@ -25,7 +25,8 @@ export default class {
 
   async showAllUsers() {
     try {
-      const contatos = await userModel.find()
+      const contatos = await userModel
+        .find()
         .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .sort({ criadoEm: -1 })
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
@@ -54,7 +55,8 @@ export default class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.user = await userModel.findById(id)
+      this.user = await userModel
+        .findById(id)
         .sort({ criadoEm: -1 })
         .select(['email', 'nome', 'foto'])
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
@@ -78,14 +80,15 @@ export default class {
     this.body.RepetPassword = this.body.password;
 
     try {
-      this.user = await userModel.findByIdAndUpdate(id, this.body, { new: true })
+      this.user = await userModel
+        .findByIdAndUpdate(id, this.body, { new: true })
         .select(['nome', 'email', 'foto']);
 
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
     } catch {
-      this.errors.push('Erro ao atualizar user.');
+      this.errors.push('Erro ao atualizar usuário.');
     }
   }
 
@@ -107,7 +110,7 @@ export default class {
     try {
       this.user = await userModel.findOne({ email: this.body.email });
 
-      if (this.user) this.errors.push('Já existe um usuario com este email.');
+      if (this.user) this.errors.push('Já existe um usuário com este email.');
     } catch (err) {
       console.error(err);
     }
@@ -116,13 +119,19 @@ export default class {
   valida() {
     this.clearUp();
 
-    if (this.body.nome.length < 3 || this.body.nome.length > 150) this.errors.push('Nome deve ter entre 3 e 150 caracteres.');
+    if (this.body.nome.length < 3 || this.body.nome.length > 9) {
+      this.errors.push('Nome deve ter entre 3 e 9 caracteres.');
+    }
 
     if (!isEmail(this.body.email)) this.errors.push('E-mail inválido');
 
-    if (this.body.password.length < 3 || this.body.password.length > 8) this.errors.push('Senha deve ter entre 3 e 9 caracteres.');
+    if (this.body.password.length < 3 || this.body.password.length > 8) {
+      this.errors.push('Senha deve ter entre 3 e 8 caracteres.');
+    }
 
-    if (this.body.password !== this.body.RepetPassword) this.errors.push('As senhas não coincidem.');
+    if (this.body.password !== this.body.RepetPassword) {
+      this.errors.push('As senhas não coincidem.');
+    }
   }
 
   clearUp() {

@@ -28,7 +28,8 @@ exports. default = class {
 
       const { user } = this.body;
 
-      const userAddFoto = await _userModel.userModel.findById(user)
+      const userAddFoto = await _userModel.userModel
+        .findById(user)
         .updateMany({ foto: this.foto });
 
       if (!userAddFoto) this.errors.push('Id não existe.');
@@ -41,7 +42,8 @@ exports. default = class {
 
   async showAllFotos() {
     try {
-      this.foto = await fotoModel.find()
+      this.foto = await fotoModel
+        .find()
         .select(['originalname', 'filename', 'url', 'user'])
         .sort({ criadoEm: -1 });
 
@@ -55,7 +57,8 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel.findById(id)
+      this.foto = await fotoModel
+        .findById(id)
         .select(['originalname', 'filename', 'url', 'user'])
         .sort({ criadoEm: -1 });
 
@@ -71,7 +74,9 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel.findByIdAndUpdate(id, this.body, { new: true });
+      this.foto = await fotoModel.findByIdAndUpdate(id, this.body, {
+        new: true,
+      });
 
       if (!this.foto) this.errors.push('Id não existe');
     } catch (e4) {

@@ -8,7 +8,7 @@ const upload = multer(multerConfig).single('foto');
 
 class FotoController {
   store(req, res) {
-    return upload(req, res, async err => {
+    return upload(req, res, async (err) => {
       const { id } = req.params;
       if (!id) return res.send();
       const user = id;
@@ -20,10 +20,14 @@ class FotoController {
       const url = `${severConfig.url}/images/${filename}`;
 
       const userFoto = new Foto({
-        originalname, filename, url, user,
+        originalname,
+        filename,
+        url,
+        user,
       });
 
-      if (userFoto.errors.length > 0) return res.json({ errors: userFoto.errors });
+      if (userFoto.errors.length > 0)
+        return res.json({ errors: userFoto.errors });
 
       const newFoto = await userFoto.fotoStore();
 
@@ -36,7 +40,8 @@ class FotoController {
 
     const fotos = await userFoto.showAllFotos();
 
-    if (userFoto.errors.length > 0) return res.json({ errors: userFoto.errors });
+    if (userFoto.errors.length > 0)
+      return res.json({ errors: userFoto.errors });
 
     return res.json(fotos);
   }
@@ -49,13 +54,14 @@ class FotoController {
 
     const foto = await userFoto.showOneFoto(id);
 
-    if (userFoto.errors.length > 0) return res.json({ errors: userFoto.errors });
+    if (userFoto.errors.length > 0)
+      return res.json({ errors: userFoto.errors });
 
     return res.json(foto);
   }
 
   async update(req, res) {
-    return upload(req, res, async err => {
+    return upload(req, res, async (err) => {
       const { id } = req.params;
       if (!id) return res.send();
       const user = id;
@@ -67,12 +73,16 @@ class FotoController {
       const url = `${severConfig.url}/images/${filename}`;
 
       const userFoto = new Foto({
-        originalname, filename, url, user,
+        originalname,
+        filename,
+        url,
+        user,
       });
 
       await userFoto.updateOneFoto(id);
 
-      if (userFoto.errors.length > 0) return res.json({ errors: userFoto.errors });
+      if (userFoto.errors.length > 0)
+        return res.json({ errors: userFoto.errors });
 
       return res.json({ uploadFoto: ['Foto atualizada com sucesso.'] });
     });
@@ -86,7 +96,8 @@ class FotoController {
 
     await userFoto.deleteOneFoto(id);
 
-    if (userFoto.errors.length > 0) return res.json({ errors: userFoto.errors });
+    if (userFoto.errors.length > 0)
+      return res.json({ errors: userFoto.errors });
 
     return res.json({ deleteFoto: ['Foto deletada com sucesso.'] });
   }

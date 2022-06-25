@@ -5,9 +5,9 @@ var _fotoController = require('../controllers/fotoController'); var _fotoControl
 
 const router = _express.Router.call(void 0, );
 
-router.get('/', _fotoController2.default.index);
+// router.get('/', fotoController.index);
 router.post('/:id', _loginRequired2.default, _fotoController2.default.store);
-// router.get('/:id', loginRequired, fotoController.show);
+router.get('/:id', _loginRequired2.default, _fotoController2.default.show);
 router.put('/:id', _loginRequired2.default, _fotoController2.default.update);
 router.delete('/:id', _loginRequired2.default, _fotoController2.default.delete);
 

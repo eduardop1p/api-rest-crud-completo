@@ -14,7 +14,8 @@ class UserController {
 
     await userStore.storeUser();
 
-    if (userStore.errors.length > 0) return res.json({ errors: userStore.errors });
+    if (userStore.errors.length > 0)
+      return res.json({ errors: userStore.errors });
     return res.json({ user: ['Usuário criado com sucesso.'] });
   }
 
@@ -25,7 +26,8 @@ class UserController {
     const userShow = new (0, _userModel2.default)(req.body);
     const user = await userShow.showOneUser(id);
 
-    if (userShow.errors.length > 0) return res.json({ errors: userShow.errors });
+    if (userShow.errors.length > 0)
+      return res.json({ errors: userShow.errors });
 
     return res.json(user);
   }
@@ -37,7 +39,8 @@ class UserController {
     const userUpdate = new (0, _userModel2.default)(req.body);
     const user = await userUpdate.updateOneUser(id);
 
-    if (userUpdate.errors.length > 0) return res.json({ erros: userUpdate.errors });
+    if (userUpdate.errors.length > 0)
+      return res.json({ erros: userUpdate.errors });
 
     return res.json(user);
   }
@@ -50,7 +53,8 @@ class UserController {
 
     await userDelete.deleteOneUser(id);
 
-    if (userDelete.errors.length > 0) return res.json({ errors: userDelete.errors });
+    if (userDelete.errors.length > 0)
+      return res.json({ errors: userDelete.errors });
 
     return res.json({ userDelete: ['Usuário deletado com sucesso.'] });
   }
