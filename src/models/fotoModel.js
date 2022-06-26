@@ -32,7 +32,7 @@ export default class {
         .findById(user)
         .updateMany({ foto: this.foto });
 
-      if (!userAddFoto) this.errors.push('Id não existe.');
+      if (!userAddFoto) return this.errors.push('Id não existe.');
 
       return this.foto;
     } catch {
@@ -49,7 +49,7 @@ export default class {
 
       return this.foto;
     } catch {
-      this.errors.push('Erro ao obter fotos');
+      this.errors.push('Erro ao obter fotos.');
     }
   }
 
@@ -62,11 +62,11 @@ export default class {
         .select(['originalname', 'filename', 'url', 'user'])
         .sort({ criadoEm: -1 });
 
-      if (!this.foto) this.errors.push('Id não existe');
+      if (!this.foto) return this.errors.push('Id não existe.');
 
       return this.foto;
     } catch {
-      this.errors.push('Erro ao obter foto');
+      this.errors.push('Erro ao obter foto.');
     }
   }
 
@@ -78,9 +78,11 @@ export default class {
         new: true,
       });
 
-      if (!this.foto) this.errors.push('Id não existe');
+      if (!this.foto) return this.errors.push('Id não existe.');
+
+      return this.foto;
     } catch {
-      this.errors.push('Erro ao atualizar foto');
+      this.errors.push('Erro ao atualizar foto.');
     }
   }
 
@@ -90,9 +92,11 @@ export default class {
     try {
       this.foto = await fotoModel.findByIdAndDelete(id);
 
-      if (!this.foto) this.errors.push('Id não existe');
+      if (!this.foto) return this.errors.push('Id não existe.');
+
+      return this.foto;
     } catch {
-      this.errors.push('Erro ao deletar foto');
+      this.errors.push('Erro ao deletar foto.');
     }
   }
 }

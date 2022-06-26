@@ -25,13 +25,13 @@ export default class {
 
   async showAllUsers() {
     try {
-      const contatos = await userModel
+      const users = await userModel
         .find()
         .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .sort({ criadoEm: -1 })
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
-      return contatos;
+      return users;
     } catch (err) {
       console.error(err);
     }
