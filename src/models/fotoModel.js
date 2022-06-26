@@ -28,11 +28,10 @@ export default class {
 
       const { user } = this.body;
 
-      const userAddFoto = await userModel
-        .findById(user)
-        .updateMany({ foto: this.foto });
-
+      const userAddFoto = await userModel.findById(user);
       if (!userAddFoto) return this.errors.push('Id não existe.');
+
+      await userModel.findById(user).updateMany({ foto: this.foto });
 
       return this.foto;
     } catch {

@@ -26,10 +26,9 @@ class FotoController {
         user,
       });
 
+      const newFoto = await userFoto.fotoStore();
       if (userFoto.errors.length > 0)
         return res.json({ errors: userFoto.errors });
-
-      const newFoto = await userFoto.fotoStore();
 
       return res.json(newFoto);
     });
