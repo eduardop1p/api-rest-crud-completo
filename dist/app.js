@@ -69,11 +69,7 @@ class App {
   }
 
   corsOptions() {
-    const whiteList = [
-      'https://mongoosejs.com',
-      'https://www.google.com',
-      'http://localhost:3000',
-    ];
+    const whiteList = ['https://www.google.com', 'http://localhost:3000'];
     return {
       origin(origin, cb) {
         if (whiteList.indexOf(origin) !== -1) {
