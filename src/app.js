@@ -70,13 +70,13 @@ class App {
 
   corsOptions() {
     const whiteList = [
+      'https://mongoosejs.com',
       'https://www.google.com',
-      'http://localhost:4000',
-      'http://localhost:5000',
+      'http://localhost:3000',
     ];
     return {
       origin(origin, cb) {
-        if (whiteList.indexOf(origin) !== -1 || !origin) {
+        if (whiteList.indexOf(origin) !== -1) {
           cb(null, true);
         } else {
           cb(new Error('not allowed by CORS!'));
