@@ -28,14 +28,11 @@ export default class {
 
       const { user } = this.body;
 
-      const userAddFoto = await userModel.findById(user);
-      if (!userAddFoto) return this.errors.push('Id não existe.');
-
-      await userModel.findById(user).updateMany({ foto: this.foto });
+      await userModel.updateMany({ user }, { foto: this.foto });
 
       return this.foto;
     } catch {
-      this.errors.push('Error ao adicionar foto.');
+      this.errors.push('Id não existe.');
     }
   }
 
