@@ -1,5 +1,7 @@
 import User from '../models/userModel';
 
+// git reset reseta o repositório para o estado do último commit
+
 class UserController {
   async index(req, res) {
     const usersIndex = new User();
@@ -22,6 +24,7 @@ class UserController {
   async show(req, res) {
     const { id } = req.params;
     if (!id) return res.send();
+    console.log(id);
 
     const userShow = new User(req.body);
     const user = await userShow.showOneUser(id);

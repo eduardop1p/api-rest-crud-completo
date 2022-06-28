@@ -1,12 +1,17 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
 var _validator = require('validator/validator');
 var _bcryptjs = require('bcryptjs'); var _bcryptjs2 = _interopRequireDefault(_bcryptjs);
+var _promises = require('fs/promises'); var _promises2 = _interopRequireDefault(_promises);
+var _path = require('path');
+
+/* eslint-disable */
+var _fotoModel = require('./fotoModel');
 
 const userSchema = new _mongoose2.default.Schema({
-  nome: { type: String, default: '', required: false },
+  nome: { type: String, default: '' },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  RepetPassword: { type: String, required: false, default: '' },
+  RepetPassword: { type: String, required: true },
   foto: [{ type: _mongoose2.default.Schema.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
@@ -25,15 +30,15 @@ exports. default = class {
 
   async showAllUsers() {
     try {
-      const users = await userModel
+      this.user = await userModel
         .find()
-        .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .sort({ criadoEm: -1 })
+        .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
-      return users;
-    } catch (err) {
-      console.error(err);
+      return this.user;
+    } catch (e) {
+      this.errors.push('Erro ao obter todos os usuários.');
     }
   }
 
@@ -41,12 +46,28 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
+      const allPhotosUser = await _fotoModel.fotoModel.find({ user: id });
+      allPhotosUser.map(async (userPhoto) => {
+        return await _promises2.default.rm(
+          _path.resolve.call(void 0, 
+            __dirname,
+            '..',
+            '..',
+            'uploads',
+            'images',
+            userPhoto.filename
+          ),
+          { force: true }
+        );
+      });
+
+      await _fotoModel.fotoModel.deleteMany({ user: id });
       this.user = await userModel.findByIdAndDelete(id);
 
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e) {
+    } catch (e2) {
       this.errors.push('Erro ao deletar usuário.');
     }
   }
@@ -64,7 +85,7 @@ exports. default = class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e2) {
+    } catch (e3) {
       this.errors.push('Erro ao obter usuário.');
     }
   }
@@ -82,12 +103,13 @@ exports. default = class {
     try {
       this.user = await userModel
         .findByIdAndUpdate(id, this.body, { new: true })
-        .select(['nome', 'email', 'foto']);
+        .select(['nome', 'email', 'foto'])
+        .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e3) {
+    } catch (e4) {
       this.errors.push('Erro ao atualizar usuário.');
     }
   }
@@ -104,15 +126,17 @@ exports. default = class {
     this.body.RepetPassword = this.body.password;
 
     this.user = await userModel.create(this.body);
+    return this.user;
   }
 
   async userExist() {
     try {
       this.user = await userModel.findOne({ email: this.body.email });
 
-      if (this.user) this.errors.push('Já existe um usuário com este email.');
-    } catch (err) {
-      console.error(err);
+      if (this.user)
+        return this.errors.push('Já existe um usuário com este email.');
+    } catch (e5) {
+      this.errors.push('Erro ao procurar usuário.');
     }
   }
 

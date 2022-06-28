@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
+import fs from 'fs/promises';
+import { resolve } from 'path';
 
+/* eslint-disable */
 import { userModel } from './userModel';
 
 const fotoSchema = new mongoose.Schema({
@@ -24,15 +27,36 @@ export default class {
 
   async fotoStore() {
     try {
-      this.foto = await fotoModel.create(this.body);
-
       const { user } = this.body;
 
-      await userModel.updateMany({ user }, { foto: this.foto });
+      const existUser = await userModel.findById(user);
+      if (!existUser) return this.errors.push('Id não existe.');
+
+      const allPhotosUser = await fotoModel.find({ user });
+      allPhotosUser.map(async (userPhoto) => {
+        return await fs.rm(
+          resolve(
+            __dirname,
+            '..',
+            '..',
+            'uploads',
+            'images',
+            userPhoto.filename
+          ),
+          { force: true }
+        );
+      });
+
+      const a = await fotoModel.deleteMany({ user });
+      this.foto = await fotoModel.create(this.body);
+
+      await userModel.findByIdAndUpdate(user, {
+        foto: this.foto,
+      });
 
       return this.foto;
     } catch {
-      this.errors.push('Id não existe.');
+      this.errors.push('Erro ao adcionar foto.');
     }
   }
 
@@ -40,8 +64,8 @@ export default class {
     try {
       this.foto = await fotoModel
         .find()
-        .select(['originalname', 'filename', 'url', 'user'])
-        .sort({ criadoEm: -1 });
+        .sort({ criadoEm: -1 })
+        .select(['originalname', 'filename', 'url', 'user']);
 
       return this.foto;
     } catch {
@@ -55,8 +79,8 @@ export default class {
     try {
       this.foto = await fotoModel
         .findById(id)
-        .select(['originalname', 'filename', 'url', 'user'])
-        .sort({ criadoEm: -1 });
+        .sort({ criadoEm: -1 })
+        .select(['originalname', 'filename', 'url', 'user']);
 
       if (!this.foto) return this.errors.push('Id não existe.');
 
@@ -87,7 +111,10 @@ export default class {
 
     try {
       this.foto = await fotoModel.findByIdAndDelete(id);
-
+      fs.rm(
+        resolve(__dirname, '..', '..', 'uploads', 'images', this.foto.filename),
+        { force: true }
+      );
       if (!this.foto) return this.errors.push('Id não existe.');
 
       return this.foto;
@@ -96,3 +123,5 @@ export default class {
     }
   }
 }
+
+export { fotoModel };

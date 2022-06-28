@@ -69,13 +69,14 @@ class App {
   }
 
   corsOptions() {
-    const whiteList = ['https://www.google.com', 'http://localhost:3000'];
+    const allowList = ['https://www.google.com', 'http://localhost:3000'];
     return {
       origin(origin, cb) {
-        if (whiteList.indexOf(origin) !== -1) {
+        // !origin para nossa api aceitar a origin do insominia
+        if (allowList.indexOf(origin) !== -1 || !origin) {
           cb(null, true);
         } else {
-          cb(new Error('not allowed by CORS!'));
+          cb(console.error('Origem não permitida!'), false);
         }
       },
     };

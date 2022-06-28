@@ -1,5 +1,8 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
+var _promises = require('fs/promises'); var _promises2 = _interopRequireDefault(_promises);
+var _path = require('path');
 
+/* eslint-disable */
 var _userModel = require('./userModel');
 
 const fotoSchema = new _mongoose2.default.Schema({
@@ -24,15 +27,36 @@ exports. default = class {
 
   async fotoStore() {
     try {
-      this.foto = await fotoModel.create(this.body);
-
       const { user } = this.body;
 
-      await _userModel.userModel.updateMany({ user }, { foto: this.foto });
+      const existUser = await _userModel.userModel.findById(user);
+      if (!existUser) return this.errors.push('Id não existe.');
+
+      const allPhotosUser = await fotoModel.find({ user });
+      allPhotosUser.map(async (userPhoto) => {
+        return await _promises2.default.rm(
+          _path.resolve.call(void 0, 
+            __dirname,
+            '..',
+            '..',
+            'uploads',
+            'images',
+            userPhoto.filename
+          ),
+          { force: true }
+        );
+      });
+
+      const a = await fotoModel.deleteMany({ user });
+      this.foto = await fotoModel.create(this.body);
+
+      await _userModel.userModel.findByIdAndUpdate(user, {
+        foto: this.foto,
+      });
 
       return this.foto;
     } catch (e) {
-      this.errors.push('Id não existe.');
+      this.errors.push('Erro ao adcionar foto.');
     }
   }
 
@@ -40,8 +64,8 @@ exports. default = class {
     try {
       this.foto = await fotoModel
         .find()
-        .select(['originalname', 'filename', 'url', 'user'])
-        .sort({ criadoEm: -1 });
+        .sort({ criadoEm: -1 })
+        .select(['originalname', 'filename', 'url', 'user']);
 
       return this.foto;
     } catch (e2) {
@@ -55,8 +79,8 @@ exports. default = class {
     try {
       this.foto = await fotoModel
         .findById(id)
-        .select(['originalname', 'filename', 'url', 'user'])
-        .sort({ criadoEm: -1 });
+        .sort({ criadoEm: -1 })
+        .select(['originalname', 'filename', 'url', 'user']);
 
       if (!this.foto) return this.errors.push('Id não existe.');
 
@@ -87,7 +111,10 @@ exports. default = class {
 
     try {
       this.foto = await fotoModel.findByIdAndDelete(id);
-
+      _promises2.default.rm(
+        _path.resolve.call(void 0, __dirname, '..', '..', 'uploads', 'images', this.foto.filename),
+        { force: true }
+      );
       if (!this.foto) return this.errors.push('Id não existe.');
 
       return this.foto;
@@ -96,3 +123,5 @@ exports. default = class {
     }
   }
 }
+
+exports.fotoModel = fotoModel;

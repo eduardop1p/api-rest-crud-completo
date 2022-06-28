@@ -4,7 +4,7 @@ var _multerConfig = require('../config/multerConfig'); var _multerConfig2 = _int
 var _severConfig = require('../config/severConfig'); var _severConfig2 = _interopRequireDefault(_severConfig);
 var _fotoModel = require('../models/fotoModel'); var _fotoModel2 = _interopRequireDefault(_fotoModel);
 
-const upload = _multer2.default.call(void 0, _multerConfig2.default).single('foto');
+const upload = _multer2.default.call(void 0, _multerConfig2.default).single('user-foto');
 
 class FotoController {
   store(req, res) {
@@ -13,7 +13,10 @@ class FotoController {
       if (!id) return res.send();
       const user = id;
 
-      if (err) return res.status(400).res.json({ errors: err });
+      if (err) {
+        res.json({ erro: err.code });
+        return;
+      }
 
       const { originalname, filename } = req.file;
 

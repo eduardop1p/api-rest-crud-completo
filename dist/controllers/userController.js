@@ -1,5 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _userModel = require('../models/userModel'); var _userModel2 = _interopRequireDefault(_userModel);
 
+// git reset reseta o repositório para o estado do último commit
+
 class UserController {
   async index(req, res) {
     const usersIndex = new (0, _userModel2.default)();
@@ -22,6 +24,7 @@ class UserController {
   async show(req, res) {
     const { id } = req.params;
     if (!id) return res.send();
+    console.log(id);
 
     const userShow = new (0, _userModel2.default)(req.body);
     const user = await userShow.showOneUser(id);

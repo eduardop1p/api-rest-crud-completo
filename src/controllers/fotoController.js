@@ -4,7 +4,7 @@ import multerConfig from '../config/multerConfig';
 import severConfig from '../config/severConfig';
 import Foto from '../models/fotoModel';
 
-const upload = multer(multerConfig).single('foto');
+const upload = multer(multerConfig).single('user-foto');
 
 class FotoController {
   store(req, res) {
@@ -13,7 +13,10 @@ class FotoController {
       if (!id) return res.send();
       const user = id;
 
-      if (err) return res.status(400).res.json({ errors: err });
+      if (err) {
+        res.json({ erro: err.code });
+        return;
+      }
 
       const { originalname, filename } = req.file;
 

@@ -1,12 +1,17 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator/validator';
 import bcryptjs from 'bcryptjs';
+import fs from 'fs/promises';
+import { resolve } from 'path';
+
+/* eslint-disable */
+import { fotoModel } from './fotoModel';
 
 const userSchema = new mongoose.Schema({
-  nome: { type: String, default: '', required: false },
+  nome: { type: String, default: '' },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  RepetPassword: { type: String, required: false, default: '' },
+  RepetPassword: { type: String, required: true },
   foto: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
@@ -25,15 +30,15 @@ export default class {
 
   async showAllUsers() {
     try {
-      const users = await userModel
+      this.user = await userModel
         .find()
-        .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .sort({ criadoEm: -1 })
+        .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
-      return users;
-    } catch (err) {
-      console.error(err);
+      return this.user;
+    } catch {
+      this.errors.push('Erro ao obter todos os usuários.');
     }
   }
 
@@ -41,6 +46,22 @@ export default class {
     if (typeof id !== 'string' || !id) return;
 
     try {
+      const allPhotosUser = await fotoModel.find({ user: id });
+      allPhotosUser.map(async (userPhoto) => {
+        return await fs.rm(
+          resolve(
+            __dirname,
+            '..',
+            '..',
+            'uploads',
+            'images',
+            userPhoto.filename
+          ),
+          { force: true }
+        );
+      });
+
+      await fotoModel.deleteMany({ user: id });
       this.user = await userModel.findByIdAndDelete(id);
 
       if (!this.user) return this.errors.push('Id não existe.');
@@ -82,7 +103,8 @@ export default class {
     try {
       this.user = await userModel
         .findByIdAndUpdate(id, this.body, { new: true })
-        .select(['nome', 'email', 'foto']);
+        .select(['nome', 'email', 'foto'])
+        .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
       if (!this.user) return this.errors.push('Id não existe.');
 
@@ -104,15 +126,17 @@ export default class {
     this.body.RepetPassword = this.body.password;
 
     this.user = await userModel.create(this.body);
+    return this.user;
   }
 
   async userExist() {
     try {
       this.user = await userModel.findOne({ email: this.body.email });
 
-      if (this.user) this.errors.push('Já existe um usuário com este email.');
-    } catch (err) {
-      console.error(err);
+      if (this.user)
+        return this.errors.push('Já existe um usuário com este email.');
+    } catch {
+      this.errors.push('Erro ao procurar usuário.');
     }
   }
 
