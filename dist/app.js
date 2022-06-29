@@ -24,7 +24,6 @@ class App {
       secret: process.env.SECRET,
       store: _connectmongo2.default.create({
         mongoUrl: process.env.CONNECT_STRING_MONGODB,
-        collectionName: 'sessions',
       }),
       resave: false,
       saveUninitialized: false,
