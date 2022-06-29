@@ -22,8 +22,7 @@ class App {
     this.parseForm = _bodyparser2.default.urlencoded({ extended: false });
     this.sessionOptions = _expresssession2.default.call(void 0, {
       secret: process.env.SECRET,
-      /* eslint-disable-next-line */
-      store: new _connectmongo2.default.create({
+      store: _connectmongo2.default.create({
         mongoUrl: process.env.CONNECT_STRING_MONGODB,
         collectionName: 'sessions',
       }),
