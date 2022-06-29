@@ -40,13 +40,13 @@ class App {
 
   middleware() {
     this.app.use(_cors2.default.call(void 0, this.corsOptions()));
+    this.app.use(this.sessionOptions);
     this.app.use(
       _helmet2.default.call(void 0, { crossOriginResourcePolicy: { policy: 'cross-origin' } })
     );
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'uploads')));
     this.app.use(_express2.default.json());
-    this.app.use(this.sessionOptions);
     this.app.use(_cookieparser2.default.call(void 0, ));
     this.app.use(this.parseForm);
   }
