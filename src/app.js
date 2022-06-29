@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import dotEnv from 'dotenv';
 import mongoose from 'mongoose';
-import mongoStore from 'connect-mongo';
+import MongoStore from 'connect-mongo';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -22,8 +22,10 @@ class App {
     this.parseForm = bodyParser.urlencoded({ extended: false });
     this.sessionOptions = session({
       secret: process.env.SECRET,
-      store: mongoStore.create({
+      /* eslint-disable-next-line */
+      store: new MongoStore.create({
         mongoUrl: process.env.CONNECT_STRING_MONGODB,
+        collectionName: 'sessions',
       }),
       resave: false,
       saveUninitialized: false,
