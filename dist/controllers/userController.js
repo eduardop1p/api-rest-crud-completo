@@ -24,7 +24,6 @@ class UserController {
   async show(req, res) {
     const { id } = req.params;
     if (!id) return res.send();
-    console.log(id);
 
     const userShow = new (0, _userModel2.default)(req.body);
     const user = await userShow.showOneUser(id);
@@ -59,6 +58,7 @@ class UserController {
     if (userDelete.errors.length > 0)
       return res.json({ errors: userDelete.errors });
 
+    req.session.destroy();
     return res.json({ userDelete: ['Usuário deletado com sucesso.'] });
   }
 }
