@@ -62,7 +62,6 @@ class App {
   async connectMongoDb() {
     try {
       await _mongoose2.default.connect(process.env.CONNECT_STRING_MONGODB);
-      this.app.emit('go');
     } catch (err) {
       console.log('Erro ao connectar-se na base de dados.');
     }
