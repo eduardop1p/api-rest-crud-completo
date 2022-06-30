@@ -78,8 +78,8 @@ exports. default = class {
 
     try {
       const userPhotoUpdate = await fotoModel.find({ user });
-      userPhotoUpdate.map((userPhoto) =>
-        _promises2.default.rm(
+      userPhotoUpdate.map(async (userPhoto) => {
+        return await _promises2.default.rm(
           _path.resolve.call(void 0, 
             __dirname,
             '..',
@@ -89,8 +89,8 @@ exports. default = class {
             userPhoto.filename
           ),
           { force: true }
-        )
-      );
+        );
+      });
 
       this.foto = await fotoModel.findByIdAndUpdate(id, this.body, {
         new: true,
@@ -109,7 +109,7 @@ exports. default = class {
 
     try {
       this.foto = await fotoModel.findByIdAndDelete(id);
-      _promises2.default.rm(
+      await _promises2.default.rm(
         _path.resolve.call(void 0, __dirname, '..', '..', 'uploads', 'images', this.foto.filename),
         { force: true }
       );
