@@ -66,7 +66,7 @@ class FotoController {
     return upload(req, res, async (err) => {
       const { id } = req.params;
       if (!id) return res.send();
-      const user = id;
+      const { user } = req.session;
 
       if (err) return res.json({ errors: err.code });
 
@@ -78,7 +78,7 @@ class FotoController {
         originalname,
         filename,
         url,
-        user,
+        user: user._id,
       });
 
       await userFoto.updateOneFoto(id);

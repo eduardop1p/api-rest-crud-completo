@@ -74,10 +74,11 @@ exports. default = class {
 
   async updateOneFoto(id) {
     if (typeof id !== 'string' || !id) return;
+    const { user } = this.body;
 
     try {
-      const userPhotoUpdate = await fotoModel.find({ user: id });
-      userPhotoUpdate.map(async (userPhoto) => {
+      const allPhotosUser = await fotoModel.find({ user });
+      allPhotosUser.map(async (userPhoto) => {
         return await _promises2.default.rm(
           _path.resolve.call(void 0, 
             __dirname,
