@@ -32,27 +32,9 @@ export default class {
       const existUser = await userModel.findById(user);
       if (!existUser) return this.errors.push('Id não existe.');
 
-      const allPhotosUser = await fotoModel.find({ user });
-      allPhotosUser.map(async (userPhoto) => {
-        return await fs.rm(
-          resolve(
-            __dirname,
-            '..',
-            '..',
-            'uploads',
-            'images',
-            userPhoto.filename
-          ),
-          { force: true }
-        );
-      });
-
-      const a = await fotoModel.deleteMany({ user });
       this.foto = await fotoModel.create(this.body);
 
-      await userModel.findByIdAndUpdate(user, {
-        foto: this.foto,
-      });
+      await userModel.findByIdAndUpdate(user, { foto: this.foto });
 
       return this.foto;
     } catch {
@@ -92,8 +74,24 @@ export default class {
 
   async updateOneFoto(id) {
     if (typeof id !== 'string' || !id) return;
+    const { user } = this.body;
 
     try {
+      const userPhotoUpdate = await fotoModel.find({ user });
+      userPhotoUpdate.map((userPhoto) =>
+        fs.rm(
+          resolve(
+            __dirname,
+            '..',
+            '..',
+            'uploads',
+            'images',
+            userPhoto.filename
+          ),
+          { force: true }
+        )
+      );
+
       this.foto = await fotoModel.findByIdAndUpdate(id, this.body, {
         new: true,
       });

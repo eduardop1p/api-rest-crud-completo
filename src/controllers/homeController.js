@@ -1,6 +1,6 @@
 class HomeController {
   async index(req, res) {
-    res.json({ index: ['Ok!'] });
+    res.json({ index: ['MFLIX api server Ok!'] });
   }
 }
 

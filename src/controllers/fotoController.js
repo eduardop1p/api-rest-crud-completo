@@ -68,7 +68,7 @@ class FotoController {
       if (!id) return res.send();
       const user = id;
 
-      if (err) return res.json({ errors: err });
+      if (err) return res.json({ errors: err.code });
 
       const { originalname, filename } = req.file;
 
@@ -86,7 +86,7 @@ class FotoController {
       if (userFoto.errors.length > 0)
         return res.json({ errors: userFoto.errors });
 
-      return res.json({ uploadFoto: ['Foto atualizada com sucesso.'] });
+      return res.json({ updateFoto: ['Foto atualizada com sucesso.'] });
     });
   }
 
