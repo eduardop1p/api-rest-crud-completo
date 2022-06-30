@@ -76,7 +76,7 @@ export default class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      const userPhotoUpdate = await fotoModel.find({ id });
+      const userPhotoUpdate = await fotoModel.find({ user: id });
       userPhotoUpdate.map(async (userPhoto) => {
         return await fs.rm(
           resolve(
