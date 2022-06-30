@@ -1,6 +1,5 @@
 import app from './app';
-import severConfig from './config/severConfig';
 
 app.listen(process.env.PORT, () => {
-  console.log(`Sevidor rodando em ${severConfig.url}`);
+  console.log(`Sevidor rodando em http://localhost:${process.env.PORT}`);
 });
