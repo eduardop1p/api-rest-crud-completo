@@ -1,5 +1,7 @@
 import app from './app';
 
-app.listen(process.env.PORT, () => {
-  console.log(`Sevidor rodando em http://localhost:${process.env.PORT}`);
+console.log(process.env.SEVER_PORT);
+
+app.listen(process.env.SEVER_PORT, () => {
+  console.log(`Sevidor rodando em http://localhost:${process.env.SEVER_PORT}`);
 });
