@@ -74,10 +74,9 @@ export default class {
 
   async updateOneFoto(id) {
     if (typeof id !== 'string' || !id) return;
-    const { user } = this.body;
 
     try {
-      const userPhotoUpdate = await fotoModel.find({ user });
+      const userPhotoUpdate = await fotoModel.find({ id });
       userPhotoUpdate.map(async (userPhoto) => {
         return await fs.rm(
           resolve(
