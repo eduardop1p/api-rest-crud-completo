@@ -11,12 +11,12 @@ class LoginController {
       return;
     }
 
-    req.session.user = userLogin.user;
+    req.session.user = user;
     req.session.save();
 
-    const { _id, nome, email } = user;
+    const { _id, nome, email, minhaLista, foto } = user;
 
-    res.json({ _id, nome, email });
+    res.json({ _id, nome, email, minhaLista, foto });
   }
 }
 

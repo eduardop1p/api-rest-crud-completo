@@ -42,12 +42,12 @@ class UserController {
     if (!id) return res.send();
 
     const userUpdate = new User(req.body);
-    const user = await userUpdate.updateOneUser(id);
+    await userUpdate.updateOneUser(id);
 
     if (userUpdate.errors.length > 0)
       return res.json({ erros: userUpdate.errors });
 
-    return res.json(user);
+    return res.json({ user: ['Usuário atualizado com sucesso.'] });
   }
 
   async delete(req, res) {
@@ -62,7 +62,7 @@ class UserController {
       return res.json({ errors: userDelete.errors });
 
     req.session.destroy();
-    return res.json({ userDelete: ['Usuário deletado com sucesso.'] });
+    return res.json({ user: ['Usuário deletado com sucesso.'] });
   }
 }
 

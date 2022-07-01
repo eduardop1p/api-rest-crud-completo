@@ -13,12 +13,12 @@ class FotoController {
       if (!id) return res.send();
       const user = id;
 
+      const { originalname, filename } = req.file;
+
       if (err) {
         res.json({ erro: err.code });
         return;
       }
-
-      const { originalname, filename } = req.file;
 
       const url = `${_severConfig2.default.url}/images/${filename}`;
 
@@ -29,11 +29,12 @@ class FotoController {
         user,
       });
 
-      const newFoto = await userFoto.fotoStore();
-      if (userFoto.errors.length > 0)
-        return res.json({ errors: userFoto.errors });
-
-      return res.json(newFoto);
+      await userFoto.fotoStore();
+      if (userFoto.errors.length > 0) {
+        res.json({ errors: userFoto.errors });
+        return;
+      }
+      return res.json({ foto: ['Foto adcionada com sucesso.'] });
     });
   }
 
@@ -42,8 +43,9 @@ class FotoController {
 
     const fotos = await userFoto.showAllFotos();
 
-    if (userFoto.errors.length > 0)
+    if (userFoto.errors.length > 0) {
       return res.json({ errors: userFoto.errors });
+    }
 
     return res.json(fotos);
   }
@@ -68,9 +70,12 @@ class FotoController {
       if (!id) return res.send();
       const { user } = req.session;
 
-      if (err) return res.json({ errors: err.code });
-
       const { originalname, filename } = req.file;
+
+      if (err) {
+        res.json({ errors: err.code });
+        return;
+      }
 
       const url = `${_severConfig2.default.url}/images/${filename}`;
 
@@ -83,10 +88,12 @@ class FotoController {
 
       await userFoto.updateOneFoto(id);
 
-      if (userFoto.errors.length > 0)
-        return res.json({ errors: userFoto.errors });
+      if (userFoto.errors.length > 0) {
+        res.json({ errors: userFoto.errors });
+        return;
+      }
 
-      return res.json({ updateFoto: ['Foto atualizada com sucesso.'] });
+      return res.json({ foto: ['Foto atualizada com sucesso.'] });
     });
   }
 
@@ -101,7 +108,7 @@ class FotoController {
     if (userFoto.errors.length > 0)
       return res.json({ errors: userFoto.errors });
 
-    return res.json({ deleteFoto: ['Foto deletada com sucesso.'] });
+    return res.json({ foto: ['Foto deletada com sucesso.'] });
   }
 }
 

@@ -7,7 +7,7 @@ const router = Router();
 
 // router.get('/', minhaListaController.index);
 router.post('/:id', loginRequired, minhaListaController.store);
-router.put('/:id', loginRequired, minhaListaController.update);
+// router.put('/:id', loginRequired, minhaListaController.update);
 router.delete('/:id', loginRequired, minhaListaController.delete);
 
 export default router;

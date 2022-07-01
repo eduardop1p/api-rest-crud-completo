@@ -23,12 +23,12 @@ class MinhaListaController {
       user,
     });
 
-    const minhaLista = await minhaListaStore.storeMyList();
+    await minhaListaStore.storeMyList();
 
     if (minhaListaStore.errors.length > 0)
       return res.json({ errors: minhaListaStore.errors });
 
-    return res.json(minhaLista);
+    return res.json({ minhaLista: 'Item adcionado a lista com sucesso.' });
   }
 
   async update(req, res) {
@@ -42,12 +42,12 @@ class MinhaListaController {
       user: user._id,
     });
 
-    const minhaLista = await minhaListaUpdate.updateMyList(id);
+    await minhaListaUpdate.updateMyList(id);
 
     if (minhaListaUpdate.errors.length > 0)
       return res.json({ errors: minhaListaUpdate.errors });
 
-    return res.json(minhaLista);
+    return res.json({ minhaLista: 'Item atualizado com sucesso.' });
   }
 
   async delete(req, res) {
@@ -62,7 +62,7 @@ class MinhaListaController {
       return res.json({ errors: minhaListaDelete.errors });
 
     return res.json({
-      deleteItemMyList: 'Item de sua lista deletado com sucesso.',
+      minhaLista: 'Item deletado com sucesso.',
     });
   }
 }
