@@ -8,6 +8,9 @@ class UserController {
 
     const users = await usersIndex.showAllUsers();
 
+    if (usersIndex.errors.length > 0)
+      return res.json({ errors: usersIndex.errors });
+
     res.json(users);
   }
 

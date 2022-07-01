@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   RepetPassword: { type: String, required: true },
+  minhaLista: [{ type: mongoose.Types.ObjectId, ref: 'Minha lista' }],
   foto: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
@@ -33,7 +34,8 @@ export default class {
       this.user = await userModel
         .find()
         .sort({ criadoEm: -1 })
-        .select(['email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
+        .select(['email', 'nome', 'minhaLista', 'foto'])
+        .populate('minhaLista', ['id', 'midiaType', 'user'])
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
       return this.user;
@@ -79,7 +81,8 @@ export default class {
       this.user = await userModel
         .findById(id)
         .sort({ criadoEm: -1 })
-        .select(['email', 'nome', 'foto'])
+        .select(['email', 'nome', 'minhaLista', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
+        .populate('minhaLista', ['id', 'midiaType', 'user'])
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
       if (!this.user) return this.errors.push('Id não existe.');
@@ -103,7 +106,8 @@ export default class {
     try {
       this.user = await userModel
         .findByIdAndUpdate(id, this.body, { new: true })
-        .select(['nome', 'email', 'foto'])
+        .select(['email', 'nome', 'minhaLista', 'foto'])
+        .populate('minhaLista', ['id', 'midiaType', 'user'])
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
       if (!this.user) return this.errors.push('Id não existe.');

@@ -5,7 +5,7 @@ var _userController = require('../controllers/userController'); var _userControl
 
 const router = _express.Router.call(void 0, );
 
-router.get('/', _userController2.default.index);
+// router.get('/', userController.index);
 router.post('/', _userController2.default.store);
 router.put('/:id', _loginRequired2.default, _userController2.default.update);
 router.get('/:id', _loginRequired2.default, _userController2.default.show);

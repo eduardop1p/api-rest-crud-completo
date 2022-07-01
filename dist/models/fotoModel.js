@@ -9,7 +9,7 @@ const fotoSchema = new _mongoose2.default.Schema({
   originalname: { type: String, default: '' },
   filename: { type: String, default: '' },
   url: { type: String, default: '' },
-  user: { type: _mongoose2.default.Schema.Types.ObjectId, ref: 'User' },
+  user: { type: _mongoose2.default.Schema.Types.ObjectId },
   criadoEm: {
     type: Date,
     default: Date.now(),

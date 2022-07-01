@@ -9,7 +9,7 @@ const fotoSchema = new mongoose.Schema({
   originalname: { type: String, default: '' },
   filename: { type: String, default: '' },
   url: { type: String, default: '' },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  user: { type: mongoose.Schema.Types.ObjectId },
   criadoEm: {
     type: Date,
     default: Date.now(),

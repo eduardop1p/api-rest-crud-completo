@@ -12,6 +12,7 @@ var _path = require('path');
 var _homeRoutes = require('./routes/homeRoutes'); var _homeRoutes2 = _interopRequireDefault(_homeRoutes);
 var _userRoutes = require('./routes/userRoutes'); var _userRoutes2 = _interopRequireDefault(_userRoutes);
 var _fotoRoutes = require('./routes/fotoRoutes'); var _fotoRoutes2 = _interopRequireDefault(_fotoRoutes);
+var _minhaListaRoutes = require('./routes/minhaListaRoutes'); var _minhaListaRoutes2 = _interopRequireDefault(_minhaListaRoutes);
 var _loginRouter = require('./routes/loginRouter'); var _loginRouter2 = _interopRequireDefault(_loginRouter);
 var _logoutRouter = require('./routes/logoutRouter'); var _logoutRouter2 = _interopRequireDefault(_logoutRouter);
 
@@ -55,6 +56,7 @@ class App {
     this.app.use('/', _homeRoutes2.default);
     this.app.use('/users', _userRoutes2.default);
     this.app.use('/fotos', _fotoRoutes2.default);
+    this.app.use('/minha-lista', _minhaListaRoutes2.default);
     this.app.use('/login', _loginRouter2.default);
     this.app.use('/logout', _logoutRouter2.default);
   }

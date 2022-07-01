@@ -12,6 +12,7 @@ import { resolve } from 'path';
 import homeRoutes from './routes/homeRoutes';
 import userRoutes from './routes/userRoutes';
 import fotoRoutes from './routes/fotoRoutes';
+import minhaLista from './routes/minhaListaRoutes';
 import loginRoutes from './routes/loginRouter';
 import logoutRoutes from './routes/logoutRouter';
 
@@ -55,6 +56,7 @@ class App {
     this.app.use('/', homeRoutes);
     this.app.use('/users', userRoutes);
     this.app.use('/fotos', fotoRoutes);
+    this.app.use('/minha-lista', minhaLista);
     this.app.use('/login', loginRoutes);
     this.app.use('/logout', logoutRoutes);
   }
