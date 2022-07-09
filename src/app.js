@@ -13,6 +13,7 @@ import homeRoutes from './routes/homeRoutes';
 import userRoutes from './routes/userRoutes';
 import fotoRoutes from './routes/fotoRoutes';
 import minhaLista from './routes/minhaListaRoutes';
+import recuperarSenha from './routes/recuperarSenhaRoutes';
 import loginRoutes from './routes/loginRouter';
 import logoutRoutes from './routes/logoutRouter';
 
@@ -58,6 +59,7 @@ class App {
     this.app.use('/fotos', fotoRoutes);
     this.app.use('/minha-lista', minhaLista);
     this.app.use('/login', loginRoutes);
+    this.app.use('/recuperar-senha', recuperarSenha);
     this.app.use('/logout', logoutRoutes);
   }
 
@@ -65,12 +67,12 @@ class App {
     try {
       await mongoose.connect(process.env.CONNECT_STRING_MONGODB);
     } catch (err) {
-      console.log('Erro ao connectar-se na base de dados.');
+      console.error('Erro ao connectar-se na base de dados.');
     }
   }
 
   corsOptions() {
-    const allowList = ['https://www.google.com', 'http://localhost:3000'];
+    const allowList = ['http://localhost:3000'];
     return {
       origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia

@@ -82,8 +82,17 @@ exports. default = class {
         .findById(id)
         .sort({ criadoEm: -1 })
         .select(['email', 'nome', 'minhaLista', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
-        .populate('minhaLista', ['id', 'midiaType', 'user'])
-        .populate('foto', ['originalname', 'filename', 'url', 'user']);
+        .populate({
+          path: 'minhaLista',
+          select: ['id', 'midiaType', 'user'],
+          options: {
+            sort: { criadoEm: -1 },
+          },
+        })
+        .populate({
+          path: 'foto',
+          select: ['originalname', 'filename', 'url', 'user'],
+        });
 
       if (!this.user) return this.errors.push('Id não existe.');
 

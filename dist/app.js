@@ -13,6 +13,7 @@ var _homeRoutes = require('./routes/homeRoutes'); var _homeRoutes2 = _interopReq
 var _userRoutes = require('./routes/userRoutes'); var _userRoutes2 = _interopRequireDefault(_userRoutes);
 var _fotoRoutes = require('./routes/fotoRoutes'); var _fotoRoutes2 = _interopRequireDefault(_fotoRoutes);
 var _minhaListaRoutes = require('./routes/minhaListaRoutes'); var _minhaListaRoutes2 = _interopRequireDefault(_minhaListaRoutes);
+var _recuperarSenhaRoutes = require('./routes/recuperarSenhaRoutes'); var _recuperarSenhaRoutes2 = _interopRequireDefault(_recuperarSenhaRoutes);
 var _loginRouter = require('./routes/loginRouter'); var _loginRouter2 = _interopRequireDefault(_loginRouter);
 var _logoutRouter = require('./routes/logoutRouter'); var _logoutRouter2 = _interopRequireDefault(_logoutRouter);
 
@@ -58,6 +59,7 @@ class App {
     this.app.use('/fotos', _fotoRoutes2.default);
     this.app.use('/minha-lista', _minhaListaRoutes2.default);
     this.app.use('/login', _loginRouter2.default);
+    this.app.use('/recuperar-senha', _recuperarSenhaRoutes2.default);
     this.app.use('/logout', _logoutRouter2.default);
   }
 
@@ -65,12 +67,12 @@ class App {
     try {
       await _mongoose2.default.connect(process.env.CONNECT_STRING_MONGODB);
     } catch (err) {
-      console.log('Erro ao connectar-se na base de dados.');
+      console.error('Erro ao connectar-se na base de dados.');
     }
   }
 
   corsOptions() {
-    const allowList = ['https://www.google.com', 'http://localhost:3000'];
+    const allowList = ['http://localhost:3000'];
     return {
       origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia

@@ -15,10 +15,7 @@ exports. default = class {
     if (this.errors.length > 0) return;
 
     try {
-      this.user = await _userModel.userModel
-        .findOne({ email: this.body.email })
-        .populate('minhaLista', ['id', 'midiaType', 'user'])
-        .populate('foto', ['originalname', 'filename', 'url', 'user']);
+      this.user = await _userModel.userModel.findOne({ email: this.body.email });
 
       if (!this.user) return this.errors.push('Usuário não existe.');
 
