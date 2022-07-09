@@ -61,6 +61,7 @@ class App {
     this.app.use('/login', loginRoutes);
     this.app.use('/recuperar-senha', recuperarSenha);
     this.app.use('/logout', logoutRoutes);
+    this.app.use((req, res) => res.status(404).json({ error: [404] }));
   }
 
   async connectMongoDb() {

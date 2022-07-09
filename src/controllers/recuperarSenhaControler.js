@@ -12,7 +12,7 @@ class RecuperarSenhaControler {
 
     const { _id, email } = user;
 
-    await nodemailerConfig.sendEmailNodemailer(_id, email);
+    await nodemailerConfig.sendEmailRecoveryPassword(_id, email);
     return res.json({
       recuperarSenha: [`Enviamos um email para ${email}`],
     });

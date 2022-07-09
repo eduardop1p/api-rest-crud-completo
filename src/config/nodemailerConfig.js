@@ -14,7 +14,7 @@ class NodemailerConfig {
     });
   }
 
-  async sendEmailNodemailer(id, email) {
+  async sendEmailRecoveryPassword(id, email) {
     await this.transport.sendMail({
       from: 'mflixapp@zohomail.com',
       subject: 'Recuperar senha de login MFLIX.',

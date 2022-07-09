@@ -61,6 +61,7 @@ class App {
     this.app.use('/login', _loginRouter2.default);
     this.app.use('/recuperar-senha', _recuperarSenhaRoutes2.default);
     this.app.use('/logout', _logoutRouter2.default);
+    this.app.use((req, res) => res.status(404).json({ error: [404] }));
   }
 
   async connectMongoDb() {
