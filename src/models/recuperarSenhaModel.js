@@ -21,7 +21,7 @@ export default class {
 
       return this.user;
     } catch {
-      this.errors.push('Erro ao encontrar usuário');
+      this.errors.push('Erro ao encontrar usuário.');
     }
   }
 
@@ -45,17 +45,17 @@ export default class {
         { new: true }
       );
 
-      if (!this.user) return this.errors.push('Id não existe.');
+      if (!this.user) return this.errors.push('Erro inesperado.');
 
       return this.user;
     } catch {
-      this.errors.push('Erro ao atualizar senha');
+      this.errors.push('Erro ao criar nova senha.');
     }
   }
 
   validaPasswords() {
-    if (this.body.password.length < 3 || this.body.password.length > 8)
-      this.errors.push('Senha deve ter entre 3 e 8 caracteres.');
+    if (this.body.password.length < 3 || this.body.password.length > 9)
+      this.errors.push('Senha deve ter entre 3 e 9 caracteres.');
 
     if (this.body.password !== this.body.RepetPassword)
       this.errors.push('As senhas não coincidem.');

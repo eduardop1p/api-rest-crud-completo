@@ -30,7 +30,7 @@ class RecuperarSenhaControler {
       return res.json({ errors: recuperarSenha.errors });
 
     return res.json({
-      recuperarSenha: ['Senha atualizada com sucesso.'],
+      recuperarSenha: ['Nova senha criada com sucesso.'],
     });
   }
 }
