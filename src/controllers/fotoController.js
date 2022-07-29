@@ -31,7 +31,7 @@ class FotoController {
 
       await userFoto.fotoStore();
       if (userFoto.errors.length > 0) {
-        res.json({ errors: userFoto.errors });
+        res.status(400).json({ errors: userFoto.errors });
         return;
       }
       return res.json({ foto: ['Foto adcionada com sucesso.'] });
@@ -44,7 +44,7 @@ class FotoController {
     const fotos = await userFoto.showAllFotos();
 
     if (userFoto.errors.length > 0) {
-      return res.json({ errors: userFoto.errors });
+      return res.status(400).json({ errors: userFoto.errors });
     }
 
     return res.json(fotos);
@@ -59,7 +59,7 @@ class FotoController {
     const foto = await userFoto.showOneFoto(id);
 
     if (userFoto.errors.length > 0)
-      return res.json({ errors: userFoto.errors });
+      return res.status(400).json({ errors: userFoto.errors });
 
     return res.json(foto);
   }
@@ -89,7 +89,7 @@ class FotoController {
       await userFoto.updateOneFoto(id);
 
       if (userFoto.errors.length > 0) {
-        res.json({ errors: userFoto.errors });
+        res.status(400).json({ errors: userFoto.errors });
         return;
       }
 
@@ -106,7 +106,7 @@ class FotoController {
     await userFoto.deleteOneFoto(id);
 
     if (userFoto.errors.length > 0)
-      return res.json({ errors: userFoto.errors });
+      return res.status(400).json({ errors: userFoto.errors });
 
     return res.json({ foto: ['Foto deletada com sucesso.'] });
   }

@@ -8,7 +8,7 @@ class RecuperarSenhaControler {
     const user = await recuperarSenha.userExistModel();
 
     if (recuperarSenha.errors.length > 0)
-      return res.json({ errors: recuperarSenha.errors });
+      return res.status(400).json({ errors: recuperarSenha.errors });
 
     const { _id, email } = user;
 
@@ -27,7 +27,7 @@ class RecuperarSenhaControler {
     await recuperarSenha.updateUserPasswordModel(id);
 
     if (recuperarSenha.errors.length > 0)
-      return res.json({ errors: recuperarSenha.errors });
+      return res.status(400).json({ errors: recuperarSenha.errors });
 
     return res.json({
       recuperarSenha: ['Nova senha criada com sucesso.'],

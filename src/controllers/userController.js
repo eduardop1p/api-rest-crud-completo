@@ -9,7 +9,7 @@ class UserController {
     const users = await usersIndex.showAllUsers();
 
     if (usersIndex.errors.length > 0)
-      return res.json({ errors: usersIndex.errors });
+      return res.status(400).json({ errors: usersIndex.errors });
 
     res.json(users);
   }
@@ -20,7 +20,7 @@ class UserController {
     await userStore.storeUser();
 
     if (userStore.errors.length > 0)
-      return res.json({ errors: userStore.errors });
+      return res.status(400).json({ errors: userStore.errors });
     return res.json({ user: ['Usuário criado com sucesso.'] });
   }
 
@@ -32,7 +32,7 @@ class UserController {
     const user = await userShow.showOneUser(id);
 
     if (userShow.errors.length > 0)
-      return res.json({ errors: userShow.errors });
+      return res.status(400).json({ errors: userShow.errors });
 
     return res.json(user);
   }
@@ -47,7 +47,7 @@ class UserController {
     if (userUpdate.errors.length > 0)
       return res.json({ erros: userUpdate.errors });
 
-    return res.json({ user: ['Usuário atualizado com sucesso.'] });
+    return res.status(400).json({ user: ['Usuário atualizado com sucesso.'] });
   }
 
   async delete(req, res) {
@@ -59,7 +59,7 @@ class UserController {
     await userDelete.deleteOneUser(id);
 
     if (userDelete.errors.length > 0)
-      return res.json({ errors: userDelete.errors });
+      return res.status(400).json({ errors: userDelete.errors });
 
     req.session.destroy();
     return res.json({ user: ['Usuário deletado com sucesso.'] });

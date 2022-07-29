@@ -7,7 +7,7 @@ class MinhaListaController {
     const minhaLista = await minhaListaIndex.showAllList();
 
     if (minhaListaIndex.errors.length > 0)
-      return res.json({ errors: minhaListaIndex.errors });
+      return res.status(400).json({ errors: minhaListaIndex.errors });
 
     res.json(minhaLista);
   }
@@ -26,7 +26,7 @@ class MinhaListaController {
     await minhaListaStore.storeMyList();
 
     if (minhaListaStore.errors.length > 0)
-      return res.json({ errors: minhaListaStore.errors });
+      return res.status(400).json({ errors: minhaListaStore.errors });
 
     return res.json({ minhaLista: 'Item adcionado a lista com sucesso.' });
   }
@@ -45,7 +45,7 @@ class MinhaListaController {
     await minhaListaUpdate.updateMyList(id);
 
     if (minhaListaUpdate.errors.length > 0)
-      return res.json({ errors: minhaListaUpdate.errors });
+      return res.status(400).json({ errors: minhaListaUpdate.errors });
 
     return res.json({ minhaLista: 'Item atualizado com sucesso.' });
   }
@@ -59,7 +59,7 @@ class MinhaListaController {
     await minhaListaDelete.deleteOneMyList(id);
 
     if (minhaListaDelete.errors.length > 0)
-      return res.json({ errors: minhaListaDelete.errors });
+      return res.status(400).json({ errors: minhaListaDelete.errors });
 
     return res.json({
       minhaLista: 'Item deletado com sucesso.',
