@@ -41,7 +41,12 @@ class App {
   }
 
   middleware() {
-    this.app.use(cors(this.corsOptions()));
+    this.app.use(
+      cors({
+        origin: ['http://localhost:3000'],
+        credentials: true,
+      })
+    );
     this.app.use(this.sessionOptions);
     this.app.use(
       helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } })
@@ -72,19 +77,19 @@ class App {
     }
   }
 
-  corsOptions() {
-    const allowList = ['http://localhost:3000'];
-    return {
-      origin(origin, cb) {
-        // !origin para nossa api aceitar a origin do insominia
-        if (allowList.indexOf(origin) !== -1 || !origin) {
-          cb(null, true);
-        } else {
-          cb(console.error('Origem não permitida!'), false);
-        }
-      },
-    };
-  }
+  // corsOptionsOrigin() {
+  //   const allowList = ['http://localhost:3000'];
+  //   return {
+  //     origin(origin, cb) {
+  //       // !origin para nossa api aceitar a origin do insominia
+  //       if (allowList.indexOf(origin) !== -1 || !origin) {
+  //         cb(null, true);
+  //       } else {
+  //         cb(console.error('Origem não permitida!'), false);
+  //       }
+  //     },
+  //   };
+  // }
 }
 
 export default new App().app;
