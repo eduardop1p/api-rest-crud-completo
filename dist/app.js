@@ -71,7 +71,7 @@ class App {
   }
 
   corsOptions() {
-    const allowList = ['http://localhost:30000'];
+    const allowList = ['http://localhost:3000'];
     return {
       origin: function origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia
