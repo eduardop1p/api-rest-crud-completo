@@ -5,8 +5,6 @@ import mongoose from 'mongoose';
 import mongoStore from 'connect-mongo';
 import helmet from 'helmet';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
 import { resolve } from 'path';
 
 import homeRoutes from './routes/homeRoutes';
@@ -17,11 +15,12 @@ import recuperarSenha from './routes/recuperarSenhaRoutes';
 import loginRoutes from './routes/loginRouter';
 import logoutRoutes from './routes/logoutRouter';
 
+/* eslint-disable */
+
 class App {
   constructor() {
     this.app = express();
     dotEnv.config();
-    this.parseForm = bodyParser.urlencoded({ extended: false });
     this.sessionOptions = session({
       secret: process.env.SECRET,
       store: mongoStore.create({
@@ -32,6 +31,7 @@ class App {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
+        secure: false,
       },
     });
 
@@ -41,12 +41,7 @@ class App {
   }
 
   middleware() {
-    this.app.use(
-      cors({
-        origin: ['http://localhost:3000'],
-        credentials: true,
-      })
-    );
+    this.app.use(cors(this.corsOptions()));
     this.app.use(this.sessionOptions);
     this.app.use(
       helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } })
@@ -54,8 +49,6 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
     this.app.use(express.json());
-    this.app.use(cookieParser());
-    this.app.use(this.parseForm);
   }
 
   routes() {
@@ -77,19 +70,21 @@ class App {
     }
   }
 
-  // corsOptionsOrigin() {
-  //   const allowList = ['http://localhost:3000'];
-  //   return {
-  //     origin(origin, cb) {
-  //       // !origin para nossa api aceitar a origin do insominia
-  //       if (allowList.indexOf(origin) !== -1 || !origin) {
-  //         cb(null, true);
-  //       } else {
-  //         cb(console.error('Origem não permitida!'), false);
-  //       }
-  //     },
-  //   };
-  // }
+  corsOptions() {
+    const allowList = ['http://localhost:30000'];
+    return {
+      origin: function origin(origin, cb) {
+        // !origin para nossa api aceitar a origin do insominia
+        if (allowList.indexOf(origin) !== -1 || !origin) {
+          cb(null, true);
+        } else {
+          cb(console.error('Origem não permitida!'), false);
+        }
+      },
+      credentials: true,
+      optionsSuccessStatus: 200,
+    };
+  }
 }
 
 export default new App().app;
