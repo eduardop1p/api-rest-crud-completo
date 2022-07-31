@@ -28,10 +28,10 @@ class App {
       }),
       resave: false,
       saveUninitialized: false,
+      proxy: true,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
-        secure: false,
       },
     });
 
@@ -41,6 +41,7 @@ class App {
   }
 
   middleware() {
+    this.app.set('trust proxy', true);
     this.app.use(cors(this.corsOptions()));
     this.app.use(this.sessionOptions);
     this.app.use(
