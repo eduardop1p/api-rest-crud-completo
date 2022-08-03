@@ -1,5 +1,6 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _loginModel = require('../models/loginModel'); var _loginModel2 = _interopRequireDefault(_loginModel);
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }/* eslint-disable */
 
+var _loginModel = require('../models/loginModel'); var _loginModel2 = _interopRequireDefault(_loginModel);
 class LoginController {
   async login(req, res) {
     const userLogin = new (0, _loginModel2.default)(req.body);
@@ -21,7 +22,7 @@ class LoginController {
       nome,
       email,
       session: {
-        originalMaxAge: cookie.originalMaxAge,
+        id: req.sessionID,
         expires: cookie.expires,
       },
     });

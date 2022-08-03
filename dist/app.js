@@ -21,19 +21,6 @@ class App {
   constructor() {
     this.app = _express2.default.call(void 0, );
     _dotenv2.default.config();
-    this.sessionOptions = _expresssession2.default.call(void 0, {
-      secret: process.env.SECRET,
-      store: _connectmongo2.default.create({
-        mongoUrl: process.env.CONNECT_STRING_MONGODB,
-      }),
-      resave: false,
-      saveUninitialized: false,
-      proxy: true,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 10,
-        httpOnly: true,
-      },
-    });
 
     this.middleware();
     this.routes();
@@ -41,9 +28,8 @@ class App {
   }
 
   middleware() {
-    this.app.set('trust proxy', true);
     this.app.use(_cors2.default.call(void 0, this.corsOptions()));
-    this.app.use(this.sessionOptions);
+    this.app.use(this.sessionOptions());
     this.app.use(
       _helmet2.default.call(void 0, { crossOriginResourcePolicy: { policy: 'cross-origin' } })
     );
@@ -71,6 +57,21 @@ class App {
     }
   }
 
+  sessionOptions() {
+    return _expresssession2.default.call(void 0, {
+      secret: process.env.SECRET,
+      store: _connectmongo2.default.create({
+        mongoUrl: process.env.CONNECT_STRING_MONGODB,
+      }),
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 10,
+        httpOnly: true,
+      },
+    });
+  }
+
   corsOptions() {
     const allowList = ['http://localhost:3000'];
     return {
@@ -82,8 +83,6 @@ class App {
           cb(console.error('Origem não permitida!'), false);
         }
       },
-      credentials: true,
-      optionsSuccessStatus: 200,
     };
   }
 }

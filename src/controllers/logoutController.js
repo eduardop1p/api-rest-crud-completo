@@ -1,8 +1,12 @@
+/* eslint-disable */
+
 class Logout {
   logout(req, res) {
-    req.session.destroy();
+    const { sessionID } = req.params;
 
-    res.json({ logout: ['Você fez logout.'] });
+    req.sessionStore.destroy(sessionID, (err) => err);
+
+    res.json({ logout: true });
   }
 }
 

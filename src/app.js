@@ -21,19 +21,6 @@ class App {
   constructor() {
     this.app = express();
     dotEnv.config();
-    this.sessionOptions = session({
-      secret: process.env.SECRET,
-      store: mongoStore.create({
-        mongoUrl: process.env.CONNECT_STRING_MONGODB,
-      }),
-      resave: false,
-      saveUninitialized: false,
-      proxy: true,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 10,
-        httpOnly: true,
-      },
-    });
 
     this.middleware();
     this.routes();
@@ -41,9 +28,8 @@ class App {
   }
 
   middleware() {
-    this.app.set('trust proxy', true);
     this.app.use(cors(this.corsOptions()));
-    this.app.use(this.sessionOptions);
+    this.app.use(this.sessionOptions());
     this.app.use(
       helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } })
     );
@@ -71,6 +57,21 @@ class App {
     }
   }
 
+  sessionOptions() {
+    return session({
+      secret: process.env.SECRET,
+      store: mongoStore.create({
+        mongoUrl: process.env.CONNECT_STRING_MONGODB,
+      }),
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 10,
+        httpOnly: true,
+      },
+    });
+  }
+
   corsOptions() {
     const allowList = ['http://localhost:3000'];
     return {
@@ -82,8 +83,6 @@ class App {
           cb(console.error('Origem não permitida!'), false);
         }
       },
-      credentials: true,
-      optionsSuccessStatus: 200,
     };
   }
 }

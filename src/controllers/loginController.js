@@ -1,5 +1,6 @@
-import Login from '../models/loginModel';
+/* eslint-disable */
 
+import Login from '../models/loginModel';
 class LoginController {
   async login(req, res) {
     const userLogin = new Login(req.body);
@@ -21,7 +22,7 @@ class LoginController {
       nome,
       email,
       session: {
-        originalMaxAge: cookie.originalMaxAge,
+        id: req.sessionID,
         expires: cookie.expires,
       },
     });

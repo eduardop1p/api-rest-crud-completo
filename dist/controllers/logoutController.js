@@ -1,8 +1,12 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});class Logout {
-  logout(req, res) {
-    req.session.destroy();
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});/* eslint-disable */
 
-    res.json({ logout: ['Você fez logout.'] });
+class Logout {
+  logout(req, res) {
+    const { sessionID } = req.params;
+
+    req.sessionStore.destroy(sessionID, (err) => err);
+
+    res.json({ logout: true });
   }
 }
 
