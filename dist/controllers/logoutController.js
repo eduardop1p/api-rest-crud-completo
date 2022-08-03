@@ -2,9 +2,9 @@
 
 class Logout {
   logout(req, res) {
-    const { sessionID } = req.params;
+    const { autorization } = req.headers;
 
-    req.sessionStore.destroy(sessionID, (err) => err);
+    req.sessionStore.destroy(autorization, (err) => err);
 
     res.json({ logout: true });
   }

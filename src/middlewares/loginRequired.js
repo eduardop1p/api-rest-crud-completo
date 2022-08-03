@@ -1,6 +1,7 @@
 export default (req, res, next) => {
-  const { sessionID } = req.params;
-  if (!sessionID) {
+  const { autorization } = req.headers;
+
+  if (!autorization) {
     res.json({ errors: ['Você precisa fazer login.'] });
 
     return;
