@@ -22,10 +22,12 @@ exports. default = class {
     this.minhaLista = null;
   }
 
-  async showAllList() {
+  async showAllList(id) {
+    if (typeof id !== 'string' || !id) return;
+
     try {
       this.minhaLista = await minhaListaModel
-        .find()
+        .find({ user: id })
         .sort({ criadoEm: -1 })
         .select(['id', 'midiaType', 'user']);
 

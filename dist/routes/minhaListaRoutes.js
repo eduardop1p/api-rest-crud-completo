@@ -5,7 +5,7 @@ var _loginRequired = require('../middlewares/loginRequired'); var _loginRequired
 
 const router = _express.Router.call(void 0, );
 
-// router.get('/', minhaListaController.index);
+router.get('/:id', _loginRequired2.default, _minhaListaController2.default.index);
 router.post('/:id', _loginRequired2.default, _minhaListaController2.default.store);
 // router.put('/:id', loginRequired, minhaListaController.update);
 router.delete('/:id', _loginRequired2.default, _minhaListaController2.default.delete);

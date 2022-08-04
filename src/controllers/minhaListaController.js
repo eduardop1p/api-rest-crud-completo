@@ -2,9 +2,11 @@ import MinhaListaModel from '../models/minhaListaModel';
 
 class MinhaListaController {
   async index(req, res) {
-    const minhaListaIndex = new MinhaListaModel();
+    const { id } = req.params;
+    if (!id) return res.send();
 
-    const minhaLista = await minhaListaIndex.showAllList();
+    const minhaListaIndex = new MinhaListaModel();
+    const minhaLista = await minhaListaIndex.showAllList(id);
 
     if (minhaListaIndex.errors.length > 0)
       return res.status(400).json({ errors: minhaListaIndex.errors });

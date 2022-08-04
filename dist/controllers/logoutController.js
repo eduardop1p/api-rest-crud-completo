@@ -2,9 +2,14 @@
 
 class Logout {
   logout(req, res) {
-    const { autorization } = req.headers;
+    const errors = [];
 
-    req.sessionStore.destroy(autorization, (err) => err);
+    const { authorization } = req.headers;
+    req.sessionStore.destroy(authorization, (err) =>
+      errors.push('Erro ao fazer logout.')
+    );
+
+    if (errors.length) return res.json({ errors: errors });
 
     res.json({ logout: true });
   }

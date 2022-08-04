@@ -4,6 +4,6 @@ var _logoutController = require('../controllers/logoutController'); var _logoutC
 
 const router = _express.Router.call(void 0, );
 
-router.get('/:sessionID', _logoutController2.default.logout);
+router.get('/', _logoutController2.default.logout);
 
 exports. default = router;
