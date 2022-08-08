@@ -12,7 +12,7 @@ const fotoSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId },
   criadoEm: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

@@ -9,7 +9,7 @@ const minhaListaSchema = new mongoose.Schema({
   user: { type: mongoose.Types.ObjectId },
   criadoEm: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

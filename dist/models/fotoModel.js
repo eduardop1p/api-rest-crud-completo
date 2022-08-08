@@ -12,7 +12,7 @@ const fotoSchema = new _mongoose2.default.Schema({
   user: { type: _mongoose2.default.Schema.Types.ObjectId },
   criadoEm: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

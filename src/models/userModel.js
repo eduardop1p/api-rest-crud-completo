@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   foto: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

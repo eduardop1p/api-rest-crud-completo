@@ -16,7 +16,7 @@ const userSchema = new _mongoose2.default.Schema({
   foto: [{ type: _mongoose2.default.Schema.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 
