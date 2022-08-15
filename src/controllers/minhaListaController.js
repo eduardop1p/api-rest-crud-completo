@@ -9,7 +9,7 @@ class MinhaListaController {
     const minhaLista = await minhaListaIndex.showAllList(id);
 
     if (minhaListaIndex.errors.length > 0)
-      return res.status(400).json({ errors: minhaListaIndex.errors });
+      return res.json({ errors: minhaListaIndex.errors });
 
     res.json(minhaLista);
   }
@@ -22,7 +22,7 @@ class MinhaListaController {
     const myList = await myListShow.showOneList(userId, id, midiaType);
 
     if (myListShow.errors.length > 0)
-      return res.status(400).json({ errors: myListShow.errors });
+      return res.json({ errors: myListShow.errors });
 
     res.json(myList);
   }
