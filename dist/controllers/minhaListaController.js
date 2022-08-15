@@ -16,7 +16,7 @@ class MinhaListaController {
 
   async show(req, res) {
     const { userId, id, midiaType } = req.params;
-    if (!userId || !id || midiaType) return res.send();
+    if (!userId || !id || !midiaType) return res.send();
 
     const myListShow = new (0, _minhaListaModel2.default)();
     const myList = await myListShow.showOneList(userId, id, midiaType);
