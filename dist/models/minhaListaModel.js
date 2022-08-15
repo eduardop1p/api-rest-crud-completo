@@ -37,6 +37,23 @@ exports. default = class {
     }
   }
 
+  async showOneList(userId, id, midiaType) {
+    if (typeof userId !== 'string' || !userId) return;
+
+    try {
+      this.minhaLista = await minhaListaModel
+        .findOne({ user: userId, id, midiaType })
+        .select(['id', 'midiaType', 'user']);
+
+      if (!this.minhaLista)
+        return this.errors.push('Item não adcionado a minha lista.');
+
+      return this.minhaLista;
+    } catch (e2) {
+      this.errors.push('Erro ao pegar item de minha lista.');
+    }
+  }
+
   async storeMyList() {
     try {
       const { user } = this.body;
@@ -50,7 +67,7 @@ exports. default = class {
       await _userModel.userModel.findByIdAndUpdate(user, { minhaLista: allMyListUser });
 
       return this.minhaLista;
-    } catch (e2) {
+    } catch (e3) {
       this.errors.push('Erro ao adcionar item a minha lista.');
     }
   }
@@ -66,7 +83,7 @@ exports. default = class {
       if (!this.minhaLista) return this.errors.push('Id não existe.');
 
       return this.minhaLista;
-    } catch (e3) {
+    } catch (e4) {
       this.errors.push('Erro ao atualizar item da minha lista.');
     }
   }
@@ -80,7 +97,7 @@ exports. default = class {
       if (!this.minhaLista) return this.errors.push('Id não existe.');
 
       return this.minhaLista;
-    } catch (e4) {
+    } catch (e5) {
       this.errors.push('Erro ao deletar item da minha lista.');
     }
   }

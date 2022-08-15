@@ -14,6 +14,19 @@ class MinhaListaController {
     res.json(minhaLista);
   }
 
+  async show(req, res) {
+    const { userId, id, midiaType } = req.params;
+    if (!userId || !id || midiaType) return res.send();
+
+    const myListShow = new MinhaListaModel();
+    const myList = await myListShow.showOneList(userId, id, midiaType);
+
+    if (myListShow.errors.length > 0)
+      return res.status(400).json({ errors: myListShow.errors });
+
+    res.json(myList);
+  }
+
   async store(req, res) {
     const { id } = req.params;
     if (!id) return res.send();

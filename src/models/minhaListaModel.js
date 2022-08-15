@@ -37,6 +37,23 @@ export default class {
     }
   }
 
+  async showOneList(userId, id, midiaType) {
+    if (typeof userId !== 'string' || !userId) return;
+
+    try {
+      this.minhaLista = await minhaListaModel
+        .findOne({ user: userId, id, midiaType })
+        .select(['id', 'midiaType', 'user']);
+
+      if (!this.minhaLista)
+        return this.errors.push('Item não adcionado a minha lista.');
+
+      return this.minhaLista;
+    } catch {
+      this.errors.push('Erro ao pegar item de minha lista.');
+    }
+  }
+
   async storeMyList() {
     try {
       const { user } = this.body;
