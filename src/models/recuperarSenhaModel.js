@@ -10,7 +10,7 @@ export default class {
     this.user = null;
   }
 
-  async userExistModel() {
+  async userExistModelEmail() {
     try {
       if (!isEmail(String(this.body.email)))
         return this.errors.push('E-mail inválido.');
@@ -22,6 +22,20 @@ export default class {
       return this.user;
     } catch {
       this.errors.push('Erro ao encontrar usuário.');
+    }
+  }
+
+  async showUserExistModelId(id) {
+    if (typeof id !== 'string' || !id) return;
+
+    try {
+      this.user = await userModel.findById(id);
+
+      if (!this.user) return this.errors.push('Usuário não existe.');
+
+      return this.user;
+    } catch {
+      this.errors.push('Erro ao encontrar usuário .');
     }
   }
 

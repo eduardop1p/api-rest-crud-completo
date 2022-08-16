@@ -2,10 +2,10 @@
 var _nodemailerConfig = require('../config/nodemailerConfig'); var _nodemailerConfig2 = _interopRequireDefault(_nodemailerConfig);
 
 class RecuperarSenhaControler {
-  async userExist(req, res) {
+  async userExistEmail(req, res) {
     const recuperarSenha = new (0, _recuperarSenhaModel2.default)(req.body);
 
-    const user = await recuperarSenha.userExistModel();
+    const user = await recuperarSenha.userExistModelEmail();
 
     if (recuperarSenha.errors.length > 0)
       return res.status(400).json({ errors: recuperarSenha.errors });
@@ -15,6 +15,22 @@ class RecuperarSenhaControler {
     await _nodemailerConfig2.default.sendEmailRecoveryPassword(_id, email);
     return res.json({
       recuperarSenha: [`Enviamos um email para ${email}`],
+    });
+  }
+
+  async userExistId(req, res) {
+    const { id } = req.params;
+    if (!id) return res.send();
+
+    const recuperarSenha = new (0, _recuperarSenhaModel2.default)();
+
+    await recuperarSenha.showUserExistModelId(id);
+
+    if (recuperarSenha.errors.length > 0)
+      return res.status(400).json({ errors: recuperarSenha.errors });
+
+    return res.json({
+      userExist: ['Usuário existe na base de dados'],
     });
   }
 

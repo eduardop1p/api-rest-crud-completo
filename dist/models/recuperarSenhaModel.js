@@ -10,7 +10,7 @@ exports. default = class {
     this.user = null;
   }
 
-  async userExistModel() {
+  async userExistModelEmail() {
     try {
       if (!_validator.isEmail.call(void 0, String(this.body.email)))
         return this.errors.push('E-mail inválido.');
@@ -22,6 +22,20 @@ exports. default = class {
       return this.user;
     } catch (e) {
       this.errors.push('Erro ao encontrar usuário.');
+    }
+  }
+
+  async showUserExistModelId(id) {
+    if (typeof id !== 'string' || !id) return;
+
+    try {
+      this.user = await _userModel.userModel.findById(id);
+
+      if (!this.user) return this.errors.push('Usuário não existe.');
+
+      return this.user;
+    } catch (e2) {
+      this.errors.push('Erro ao encontrar usuário .');
     }
   }
 
@@ -48,7 +62,7 @@ exports. default = class {
       if (!this.user) return this.errors.push('Erro inesperado.');
 
       return this.user;
-    } catch (e2) {
+    } catch (e3) {
       this.errors.push('Erro ao criar nova senha.');
     }
   }

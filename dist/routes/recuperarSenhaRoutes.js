@@ -4,7 +4,8 @@ var _recuperarSenhaControler = require('../controllers/recuperarSenhaControler')
 
 const router = _express.Router.call(void 0, );
 
-router.post('/', _recuperarSenhaControler2.default.userExist);
+router.post('/', _recuperarSenhaControler2.default.userExistEmail);
+router.get('/:id', _recuperarSenhaControler2.default.userExistId);
 router.put('/:id', _recuperarSenhaControler2.default.updatePasswordUser);
 
 exports. default = router;
