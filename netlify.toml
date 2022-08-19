@@ -1,9 +1,0 @@
-[build]
-  command = "npm start"
-  publish = "dist/"
-  base ="/"
-
-[[redirects]]
-  from = "/*"
-  to = "/"
-  status = 200
