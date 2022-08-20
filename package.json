@@ -2,15 +2,12 @@
   "name": "api-mflix-app",
   "version": "1.0.0",
   "description": "api para meu apicativo de filmes mflix",
-  "main": "server.js",
-  "engines": {
-    "node": "14.x"
-  },
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon src/index.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
-    "start": "node dist/server.js"
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
