@@ -1,5 +1,7 @@
 import multer from 'multer';
 
+/* eslint-disable */
+
 import multerConfig from '../config/multerConfig';
 import severConfig from '../config/severConfig';
 import Foto from '../models/fotoModel';
@@ -9,22 +11,22 @@ const upload = multer(multerConfig).single('user-foto');
 class FotoController {
   store(req, res) {
     return upload(req, res, async (err) => {
-      const { id } = req.params;
-      if (!id) return res.send();
-      const user = id;
+      const { userId } = req.params;
+      if (!userId) return res.send();
+      const user = userId;
 
-      const { originalname, filename } = req.file;
+      const { originalname, path, filename } = req.file;
 
       if (err) {
-        res.json({ erro: err.code });
+        res.json({ error: ['Erro ao fazer upload de imagem.'] });
         return;
       }
 
-      const url = `${severConfig.url}/images/${filename}`;
+      const url = path;
 
       const userFoto = new Foto({
+        filename: filename.replace('images/', ''),
         originalname,
-        filename,
         url,
         user,
       });
@@ -51,12 +53,12 @@ class FotoController {
   }
 
   async show(req, res) {
-    const { id } = req.params;
-    if (!id) return res.send();
+    const { userId } = req.params;
+    if (!userId) return res.send();
 
     const userFoto = new Foto();
 
-    const foto = await userFoto.showOneFoto(id);
+    const foto = await userFoto.showOneFoto(userId);
 
     if (userFoto.errors.length > 0)
       return res.status(400).json({ errors: userFoto.errors });
@@ -66,27 +68,26 @@ class FotoController {
 
   async update(req, res) {
     return upload(req, res, async (err) => {
-      const { id } = req.params;
-      if (!id) return res.send();
-      const { user } = req.session;
+      const { userId } = req.params;
+      if (userId) return res.send();
 
-      const { originalname, filename } = req.file;
+      const { originalname, path, filename } = req.file;
 
       if (err) {
-        res.json({ errors: err.code });
+        res.json({ error: ['Erro ao fazer update de imagem.'] });
         return;
       }
 
-      const url = `${severConfig.url}/images/${filename}`;
+      const url = path;
 
       const userFoto = new Foto({
+        filename: filename.replace('images/', ''),
+        user: userId,
         originalname,
-        filename,
         url,
-        user: user._id,
       });
 
-      await userFoto.updateOneFoto(id);
+      await userFoto.updateOneFoto(userId);
 
       if (userFoto.errors.length > 0) {
         res.status(400).json({ errors: userFoto.errors });
@@ -98,12 +99,12 @@ class FotoController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
-    if (!id) return res.send();
+    const { userId } = req.params;
+    if (!userId) return res.send();
 
     const userFoto = new Foto();
 
-    await userFoto.deleteOneFoto(id);
+    await userFoto.deleteOneFoto(userId);
 
     if (userFoto.errors.length > 0)
       return res.status(400).json({ errors: userFoto.errors });

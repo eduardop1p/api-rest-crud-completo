@@ -5,7 +5,7 @@ var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mo
 var _connectmongo = require('connect-mongo'); var _connectmongo2 = _interopRequireDefault(_connectmongo);
 var _helmet = require('helmet'); var _helmet2 = _interopRequireDefault(_helmet);
 var _cors = require('cors'); var _cors2 = _interopRequireDefault(_cors);
-var _path = require('path');
+// import { resolve } from 'path';
 
 var _homeRoutes = require('./routes/homeRoutes'); var _homeRoutes2 = _interopRequireDefault(_homeRoutes);
 var _userRoutes = require('./routes/userRoutes'); var _userRoutes2 = _interopRequireDefault(_userRoutes);
@@ -34,7 +34,7 @@ class App {
       _helmet2.default.call(void 0, { crossOriginResourcePolicy: { policy: 'cross-origin' } })
     );
     this.app.use(_express2.default.urlencoded({ extended: true }));
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'uploads')));
+    // this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
     this.app.use(_express2.default.json());
   }
 

@@ -1,5 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _multer = require('multer'); var _multer2 = _interopRequireDefault(_multer);
 
+/* eslint-disable */
+
 var _multerConfig = require('../config/multerConfig'); var _multerConfig2 = _interopRequireDefault(_multerConfig);
 var _severConfig = require('../config/severConfig'); var _severConfig2 = _interopRequireDefault(_severConfig);
 var _fotoModel = require('../models/fotoModel'); var _fotoModel2 = _interopRequireDefault(_fotoModel);
@@ -9,22 +11,22 @@ const upload = _multer2.default.call(void 0, _multerConfig2.default).single('use
 class FotoController {
   store(req, res) {
     return upload(req, res, async (err) => {
-      const { id } = req.params;
-      if (!id) return res.send();
-      const user = id;
+      const { userId } = req.params;
+      if (!userId) return res.send();
+      const user = userId;
 
-      const { originalname, filename } = req.file;
+      const { originalname, path, filename } = req.file;
 
       if (err) {
-        res.json({ erro: err.code });
+        res.json({ error: ['Erro ao fazer upload de imagem.'] });
         return;
       }
 
-      const url = `${_severConfig2.default.url}/images/${filename}`;
+      const url = path;
 
       const userFoto = new (0, _fotoModel2.default)({
+        filename: filename.replace('images/', ''),
         originalname,
-        filename,
         url,
         user,
       });
@@ -51,12 +53,12 @@ class FotoController {
   }
 
   async show(req, res) {
-    const { id } = req.params;
-    if (!id) return res.send();
+    const { userId } = req.params;
+    if (!userId) return res.send();
 
     const userFoto = new (0, _fotoModel2.default)();
 
-    const foto = await userFoto.showOneFoto(id);
+    const foto = await userFoto.showOneFoto(userId);
 
     if (userFoto.errors.length > 0)
       return res.status(400).json({ errors: userFoto.errors });
@@ -66,27 +68,26 @@ class FotoController {
 
   async update(req, res) {
     return upload(req, res, async (err) => {
-      const { id } = req.params;
-      if (!id) return res.send();
-      const { user } = req.session;
+      const { userId } = req.params;
+      if (userId) return res.send();
 
-      const { originalname, filename } = req.file;
+      const { originalname, path, filename } = req.file;
 
       if (err) {
-        res.json({ errors: err.code });
+        res.json({ error: ['Erro ao fazer update de imagem.'] });
         return;
       }
 
-      const url = `${_severConfig2.default.url}/images/${filename}`;
+      const url = path;
 
       const userFoto = new (0, _fotoModel2.default)({
+        filename: filename.replace('images/', ''),
+        user: userId,
         originalname,
-        filename,
         url,
-        user: user._id,
       });
 
-      await userFoto.updateOneFoto(id);
+      await userFoto.updateOneFoto(userId);
 
       if (userFoto.errors.length > 0) {
         res.status(400).json({ errors: userFoto.errors });
@@ -98,12 +99,12 @@ class FotoController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
-    if (!id) return res.send();
+    const { userId } = req.params;
+    if (!userId) return res.send();
 
     const userFoto = new (0, _fotoModel2.default)();
 
-    await userFoto.deleteOneFoto(id);
+    await userFoto.deleteOneFoto(userId);
 
     if (userFoto.errors.length > 0)
       return res.status(400).json({ errors: userFoto.errors });

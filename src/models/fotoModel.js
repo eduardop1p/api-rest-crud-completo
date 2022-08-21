@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import fs from 'fs/promises';
-import { resolve } from 'path';
+import cloudinary from 'cloudinary';
 
 /* eslint-disable */
 import { userModel } from './userModel';
@@ -17,6 +16,7 @@ const fotoSchema = new mongoose.Schema({
 });
 
 const fotoModel = mongoose.model('Foto', fotoSchema);
+const cloudinaryV2 = cloudinary.v2;
 
 export default class {
   constructor(body) {
@@ -60,7 +60,7 @@ export default class {
 
     try {
       this.foto = await fotoModel
-        .findById(id)
+        .findOne({ user: id })
         .sort({ criadoEm: -1 })
         .select(['originalname', 'filename', 'url', 'user']);
 
@@ -77,26 +77,15 @@ export default class {
     const { user } = this.body;
 
     try {
-      const allPhotosUser = await fotoModel.find({ user });
-      allPhotosUser.map(async (userPhoto) => {
-        return await fs.rm(
-          resolve(
-            __dirname,
-            '..',
-            '..',
-            'uploads',
-            'images',
-            userPhoto.filename
-          ),
-          { force: true }
-        );
-      });
+      const deleteFoto = await fotoModel.findOne({ user: id });
 
-      this.foto = await fotoModel.findByIdAndUpdate(id, this.body, {
+      this.foto = await fotoModel.findOneAndUpdate({ user: id }, this.body, {
         new: true,
       });
 
       if (!this.foto) return this.errors.push('Id não existe.');
+
+      cloudinaryV2.uploader.destroy(`images/${deleteFoto.filename}`);
 
       return this.foto;
     } catch {
@@ -108,11 +97,8 @@ export default class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel.findByIdAndDelete(id);
-      await fs.rm(
-        resolve(__dirname, '..', '..', 'uploads', 'images', this.foto.filename),
-        { force: true }
-      );
+      this.foto = await fotoModel.findOneAndDelete({ user: id });
+
       if (!this.foto) return this.errors.push('Id não existe.');
 
       return this.foto;

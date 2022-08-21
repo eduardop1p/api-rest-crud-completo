@@ -1,7 +1,19 @@
-import { diskStorage, MulterError } from 'multer';
-import { resolve, extname } from 'path';
+import { MulterError } from 'multer';
+import { extname } from 'path';
+import cloudinary from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import dotEnv from 'dotenv';
+
+dotEnv.config();
 
 const randomNumber = () => Math.round(Math.random() * 50000);
+const cloudinaryV2 = cloudinary.v2;
+cloudinaryV2.config({
+  secure: true,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export default {
   limits: {
@@ -12,12 +24,24 @@ export default {
       return cb(new MulterError('Arquivo precisa ser PNG ou JPG.'));
     return cb(null, true);
   },
-  storage: diskStorage({
-    destination(req, file, cb) {
-      cb(null, resolve(__dirname, '..', '..', 'uploads', 'images'));
-    },
-    filename(req, file, cb) {
-      cb(null, `${Date.now()}_${randomNumber()}${extname(file.originalname)}`);
+  storage: new CloudinaryStorage({
+    cloudinary: cloudinaryV2,
+    params: async (req, file) => {
+      return {
+        folder: 'images',
+        public_id: `${Date.now()}_${randomNumber()}${extname(
+          file.originalname
+        )}`,
+      };
     },
   }),
 };
+
+// diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, resolve(__dirname, '..', '..', 'uploads', 'images'));
+//   },
+//   filename(req, file, cb) {
+//     cb(null, `${Date.now()}_${randomNumber()}${extname(file.originalname)}`);
+//   },
+// }),

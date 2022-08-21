@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import mongoStore from 'connect-mongo';
 import helmet from 'helmet';
 import cors from 'cors';
-import { resolve } from 'path';
+// import { resolve } from 'path';
 
 import homeRoutes from './routes/homeRoutes';
 import userRoutes from './routes/userRoutes';
@@ -34,7 +34,7 @@ class App {
       helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } })
     );
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
+    // this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
     this.app.use(express.json());
   }
 

@@ -1,6 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
-var _promises = require('fs/promises'); var _promises2 = _interopRequireDefault(_promises);
-var _path = require('path');
+var _cloudinary = require('cloudinary'); var _cloudinary2 = _interopRequireDefault(_cloudinary);
 
 /* eslint-disable */
 var _userModel = require('./userModel');
@@ -17,6 +16,7 @@ const fotoSchema = new _mongoose2.default.Schema({
 });
 
 const fotoModel = _mongoose2.default.model('Foto', fotoSchema);
+const cloudinaryV2 = _cloudinary2.default.v2;
 
 exports. default = class {
   constructor(body) {
@@ -60,7 +60,7 @@ exports. default = class {
 
     try {
       this.foto = await fotoModel
-        .findById(id)
+        .findOne({ user: id })
         .sort({ criadoEm: -1 })
         .select(['originalname', 'filename', 'url', 'user']);
 
@@ -77,26 +77,15 @@ exports. default = class {
     const { user } = this.body;
 
     try {
-      const allPhotosUser = await fotoModel.find({ user });
-      allPhotosUser.map(async (userPhoto) => {
-        return await _promises2.default.rm(
-          _path.resolve.call(void 0, 
-            __dirname,
-            '..',
-            '..',
-            'uploads',
-            'images',
-            userPhoto.filename
-          ),
-          { force: true }
-        );
-      });
+      const deleteFoto = await fotoModel.findOne({ user: id });
 
-      this.foto = await fotoModel.findByIdAndUpdate(id, this.body, {
+      this.foto = await fotoModel.findOneAndUpdate({ user: id }, this.body, {
         new: true,
       });
 
       if (!this.foto) return this.errors.push('Id não existe.');
+
+      cloudinaryV2.uploader.destroy(`images/${deleteFoto.filename}`);
 
       return this.foto;
     } catch (e4) {
@@ -108,11 +97,8 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel.findByIdAndDelete(id);
-      await _promises2.default.rm(
-        _path.resolve.call(void 0, __dirname, '..', '..', 'uploads', 'images', this.foto.filename),
-        { force: true }
-      );
+      this.foto = await fotoModel.findOneAndDelete({ user: id });
+
       if (!this.foto) return this.errors.push('Id não existe.');
 
       return this.foto;
