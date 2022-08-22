@@ -69,7 +69,7 @@ class FotoController {
   async update(req, res) {
     return upload(req, res, async (err) => {
       const { userId } = req.params;
-      if (userId) return res.send();
+      if (!userId) return res.send();
 
       const { originalname, path, filename } = req.file;
 
