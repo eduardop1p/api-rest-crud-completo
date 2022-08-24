@@ -25,7 +25,7 @@ class LoginController {
         id: req.sessionID,
         expires: cookie.expires,
       },
-      profileUrl: foto.length ? foto.url : '',
+      profileUrl: foto.length ? foto[0].url : '',
     });
   }
 }

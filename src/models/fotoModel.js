@@ -29,16 +29,17 @@ export default class {
     try {
       const { user } = this.body;
 
-      const existUser = await userModel.findById(user).populate({
-        path: 'foto',
-        select: ['filename'],
-      });
+      const existUser = await userModel.findById(user);
+
       if (!existUser) return this.errors.push('Id não existe.');
 
-      if (existUser.foto.length)
-        await cloudinaryV2.uploader.destroy(
-          `images/${existUser.foto.filename}`
+      const allPhotosUser = await fotoModel.find({ user });
+      if (allPhotosUser.length) {
+        allPhotosUser.forEach((userPhoto) =>
+          cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`)
         );
+        await fotoModel.deleteMany({ user });
+      }
 
       this.foto = await fotoModel.create(this.body);
 
@@ -105,11 +106,14 @@ export default class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel.findOneAndDelete({ user: id });
+      this.foto = await fotoModel.find({ user: id });
 
-      if (!this.foto) return this.errors.push('Id não existe.');
+      if (!this.foto.length) return this.errors.push('Id não existe.');
 
-      cloudinaryV2.uploader.destroy(`images/${this.foto.filename}`);
+      this.foto.forEach((userPhoto) =>
+        cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`)
+      );
+      await fotoModel.deleteMany({ user: id });
 
       return this.foto;
     } catch {
