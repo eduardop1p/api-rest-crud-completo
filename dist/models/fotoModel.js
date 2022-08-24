@@ -36,7 +36,9 @@ exports. default = class {
       if (!existUser) return this.errors.push('Id não existe.');
 
       if (existUser.foto.length)
-        cloudinaryV2.uploader.destroy(`images/${existUser.foto.filename}`);
+        await cloudinaryV2.uploader.destroy(
+          `images/${existUser.foto.filename}`
+        );
 
       this.foto = await fotoModel.create(this.body);
 
@@ -91,7 +93,7 @@ exports. default = class {
 
       if (!this.foto) return this.errors.push('Id não existe.');
 
-      cloudinaryV2.uploader.destroy(`images/${deleteFoto.filename}`);
+      await cloudinaryV2.uploader.destroy(`images/${deleteFoto.filename}`);
 
       return this.foto;
     } catch (e4) {
