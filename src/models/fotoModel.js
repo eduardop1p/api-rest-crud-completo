@@ -29,7 +29,10 @@ export default class {
     try {
       const { user } = this.body;
 
-      const existUser = await userModel.findById(user);
+      const existUser = await userModel.findById(user).populate({
+        path: 'foto',
+        select: ['filename'],
+      });
       if (!existUser) return this.errors.push('Id não existe.');
 
       if (existUser.foto.length)
@@ -103,6 +106,8 @@ export default class {
       this.foto = await fotoModel.findOneAndDelete({ user: id });
 
       if (!this.foto) return this.errors.push('Id não existe.');
+
+      cloudinaryV2.uploader.destroy(`images/${this.foto.filename}`);
 
       return this.foto;
     } catch {
