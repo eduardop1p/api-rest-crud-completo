@@ -36,7 +36,7 @@ class FotoController {
         res.status(400).json({ errors: userFoto.errors });
         return;
       }
-      return res.json({ foto: ['Foto adcionada com sucesso.'] });
+      return res.json({ foto: { url, filename, user } });
     });
   }
 
