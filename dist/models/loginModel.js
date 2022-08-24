@@ -26,8 +26,8 @@ exports. default = class {
       }
 
       return this.user;
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      this.errors.push('Erro ao fazer login.');
     }
   }
 

@@ -14,7 +14,7 @@ class LoginController {
 
     req.session.user = user;
     req.session.save();
-    const { _id, nome, email } = user;
+    const { _id, nome, email, foto } = user;
     const { cookie } = req.session;
 
     res.json({
@@ -25,6 +25,7 @@ class LoginController {
         id: req.sessionID,
         expires: cookie.expires,
       },
+      profileUrl: foto.length ? foto.url : [],
     });
   }
 }

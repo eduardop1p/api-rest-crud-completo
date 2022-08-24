@@ -8,7 +8,7 @@ const router = _express.Router.call(void 0, );
 // router.get('/', fotoController.index);
 router.post('/:userId', _loginRequired2.default, _fotoController2.default.store);
 router.get('/:userId', _loginRequired2.default, _fotoController2.default.show);
-router.put('/:userId', _loginRequired2.default, _fotoController2.default.update);
+// router.put('/:userId', loginRequired, fotoController.update);
 router.delete('/:userId', _loginRequired2.default, _fotoController2.default.delete);
 
 exports. default = router;
