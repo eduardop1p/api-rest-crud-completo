@@ -88,17 +88,35 @@ export default class {
     }
   }
 
-  async deleteSelectedMyList(arrIds) {
-    if (!arrIds.length || typeof arrIds !== 'object') return;
+  async deletMyList(arrIds, userId) {
+    if (typeof userId !== 'string' || !userId) return;
 
+    if (arrIds.length) {
+      try {
+        this.minhaLista = await minhaListaModel.deleteMany({
+          id: arrIds,
+          user: userId,
+        });
+
+        if (!this.minhaLista) return this.errors.push('Ids não existe.');
+
+        return this.minhaLista;
+      } catch {
+        this.errors.push('Erro ao deletar items de minha lista.');
+      }
+      return;
+    }
     try {
-      this.minhaLista = await minhaListaModel.deleteMany({ id: arrIds });
+      this.minhaLista = await minhaListaModel.deleteMany({
+        user: userId,
+      });
 
-      if (!this.minhaLista) return this.errors.push('Ids não existe.');
+      if (!this.minhaLista) return this.errors.push('Id não existe.');
 
       return this.minhaLista;
     } catch {
-      this.errors.push('Erro ao deletar item da minha lista.');
+      this.errors.push('Erro ao deletar items de minha lista.');
     }
+    return;
   }
 }

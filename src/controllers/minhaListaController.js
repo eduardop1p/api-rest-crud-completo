@@ -66,13 +66,14 @@ class MinhaListaController {
   }
 
   async delete(req, res) {
+    const { userId } = req.params;
     const { ids } = req.query;
-    if (!ids) return res.json({ error: [404] });
+    if (!userId) return res.send();
     const arrIds = ids.split(',');
 
     const minhaListaDelete = new MinhaListaModel();
 
-    await minhaListaDelete.deleteSelectedMyList(arrIds);
+    await minhaListaDelete.deleteMyList(arrIds, userId);
 
     if (minhaListaDelete.errors.length > 0)
       return res.status(400).json({ errors: minhaListaDelete.errors });
