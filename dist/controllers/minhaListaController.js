@@ -66,18 +66,19 @@ class MinhaListaController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
-    if (!id) return res.send();
+    const { ids } = req.query;
+    if (!ids) return res.json({ error: [404] });
+    const arrIds = ids.split(',');
 
     const minhaListaDelete = new (0, _minhaListaModel2.default)();
 
-    await minhaListaDelete.deleteOneMyList(id);
+    await minhaListaDelete.deleteSelectedMyList(arrIds);
 
     if (minhaListaDelete.errors.length > 0)
       return res.status(400).json({ errors: minhaListaDelete.errors });
 
     return res.json({
-      minhaLista: 'Item deletado com sucesso.',
+      minhaLista: 'Items deletados com sucesso.',
     });
   }
 }

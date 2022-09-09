@@ -4,7 +4,7 @@
 var _userModel = require('./userModel');
 
 const minhaListaSchema = new _mongoose2.default.Schema({
-  id: { type: String, require: true },
+  id: { type: {}, require: true },
   midiaType: { type: String, default: '' },
   user: { type: _mongoose2.default.Types.ObjectId },
   criadoEm: {
@@ -88,13 +88,13 @@ exports. default = class {
     }
   }
 
-  async deleteOneMyList(id) {
-    if (typeof id !== 'string' || !id) return;
+  async deleteSelectedMyList(arrIds) {
+    if (!arrIds.length || typeof arrIds !== 'object') return;
 
     try {
-      this.minhaLista = await minhaListaModel.findByIdAndDelete(id);
+      this.minhaLista = await minhaListaModel.deleteMany({ id: arrIds });
 
-      if (!this.minhaLista) return this.errors.push('Id não existe.');
+      if (!this.minhaLista) return this.errors.push('Ids não existe.');
 
       return this.minhaLista;
     } catch (e5) {

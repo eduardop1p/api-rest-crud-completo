@@ -9,6 +9,6 @@ router.get('/:userId', _loginRequired2.default, _minhaListaController2.default.i
 router.get('/:userId/:id/:midiaType', _loginRequired2.default, _minhaListaController2.default.show);
 router.post('/:id', _loginRequired2.default, _minhaListaController2.default.store);
 // router.put('/:id', loginRequired, minhaListaController.update);
-router.delete('/:id', _loginRequired2.default, _minhaListaController2.default.delete);
+router.delete('/', _loginRequired2.default, _minhaListaController2.default.delete);
 
 exports. default = router;
