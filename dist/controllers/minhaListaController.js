@@ -1,5 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _minhaListaModel = require('../models/minhaListaModel'); var _minhaListaModel2 = _interopRequireDefault(_minhaListaModel);
 
+/* eslint-disable */
+
 class MinhaListaController {
   async index(req, res) {
     const { userId } = req.params;
@@ -67,13 +69,13 @@ class MinhaListaController {
 
   async delete(req, res) {
     const { userId } = req.params;
-    const { ids } = req.query;
+    let { ids } = req.query;
     if (!userId) return res.send();
-    const arrIds = ids.split(',');
+    if (ids) ids = ids.split(',');
 
     const minhaListaDelete = new (0, _minhaListaModel2.default)();
 
-    await minhaListaDelete.deleteMyList(arrIds, userId);
+    await minhaListaDelete.deleteMyList(ids, userId);
 
     if (minhaListaDelete.errors.length > 0)
       return res.status(400).json({ errors: minhaListaDelete.errors });

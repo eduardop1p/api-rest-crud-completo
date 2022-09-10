@@ -88,17 +88,16 @@ exports. default = class {
     }
   }
 
-  async deletMyList(arrIds, userId) {
+  async deletMyList(ids, userId) {
     if (typeof userId !== 'string' || !userId) return;
 
-    if (arrIds.length) {
+    if (!ids) {
       try {
         this.minhaLista = await minhaListaModel.deleteMany({
-          id: arrIds,
           user: userId,
         });
 
-        if (!this.minhaLista) return this.errors.push('Ids não existe.');
+        if (!this.minhaLista) return this.errors.push('Id não existe.');
 
         return this.minhaLista;
       } catch (e5) {
@@ -108,10 +107,11 @@ exports. default = class {
     }
     try {
       this.minhaLista = await minhaListaModel.deleteMany({
+        id: ids,
         user: userId,
       });
 
-      if (!this.minhaLista) return this.errors.push('Id não existe.');
+      if (!this.minhaLista) return this.errors.push('Ids não existe.');
 
       return this.minhaLista;
     } catch (e6) {
