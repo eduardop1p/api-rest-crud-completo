@@ -88,7 +88,7 @@ exports. default = class {
     }
   }
 
-  async deletMyList(ids, userId) {
+  async deleteMyList(ids, userId) {
     if (typeof userId !== 'string' || !userId) return;
 
     if (!ids) {
