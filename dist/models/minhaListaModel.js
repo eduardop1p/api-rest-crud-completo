@@ -55,6 +55,8 @@ exports. default = class {
   }
 
   async storeMyList() {
+    this.clearUp();
+
     try {
       const { user } = this.body;
 
@@ -118,5 +120,13 @@ exports. default = class {
       this.errors.push('Erro ao deletar items de minha lista.');
     }
     return;
+  }
+
+  clearUp() {
+    this.body = {
+      id: String(this.body.id),
+      midiaType: String(this.body.midiaType),
+      user: String(this.body.user),
+    };
   }
 }
