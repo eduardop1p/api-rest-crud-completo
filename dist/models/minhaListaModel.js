@@ -93,7 +93,7 @@ exports. default = class {
   async deleteMyList(ids, userId) {
     if (typeof userId !== 'string' || !userId) return;
 
-    if (typeof ids !== undefined && ids.length) {
+    if (ids instanceof Array) {
       try {
         this.minhaLista = await minhaListaModel.deleteMany({
           id: ids,
@@ -108,16 +108,19 @@ exports. default = class {
       }
       return;
     }
-    try {
-      this.minhaLista = await minhaListaModel.deleteMany({
-        user: userId,
-      });
+    if (typeof ids === 'undefined' && userId) {
+      try {
+        this.minhaLista = await minhaListaModel.deleteMany({
+          user: userId,
+        });
 
-      if (!this.minhaLista) return this.errors.push('Id não existe.');
+        if (!this.minhaLista) return this.errors.push('Id não existe.');
 
-      return this.minhaLista;
-    } catch (e6) {
-      this.errors.push('Erro ao deletar items de minha lista.');
+        return this.minhaLista;
+      } catch (e6) {
+        this.errors.push('Erro ao deletar items de minha lista.');
+      }
+      return;
     }
     return;
   }
