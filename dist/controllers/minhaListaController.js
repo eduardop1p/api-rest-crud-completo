@@ -70,7 +70,7 @@ class MinhaListaController {
   async delete(req, res) {
     const { userId } = req.params;
     let { ids } = req.query;
-    if (!userId) return res.send();
+    if (!userId || ids === '') return res.send();
     if (ids) ids = ids.split(',');
 
     const minhaListaDelete = new (0, _minhaListaModel2.default)();
