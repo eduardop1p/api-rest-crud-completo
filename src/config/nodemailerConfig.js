@@ -26,7 +26,7 @@ class NodemailerConfig {
             <img width="100%" style="margin: 0 auto;" src="https://res.cloudinary.com/ds1hwcaah/image/upload/v1661160966/images/mflix-email-recuperar-senha.png.png" alt="password images">
             <h1 style="max-width: 18rem; text-align: center; color: #171A23; font-size: 1.8rem; font-weight: 700; margin: 0 auto;" >ESQUECEU SUA SENHA?</h1>
             <h4 style="max-width: 17rem; text-align: center; color: #171A23; font-weight: 400; font-size: 14px; margin: 15px auto 0;">Não se preocupe, você pode escolher uma nova senha clicando no botão abaixo!</h4>
-            <button style="border: none; margin: 2.5rem auto 0; display: block;"><a style="background-color: #B243F7; border-radius: 2rem; text-decoration: none; padding: 13px 1.8rem; color: #fff; font-size: 13px; font-weight: 500;" target="_blank" href="http://localhost:3000/recuperar-senha/${id}">NOVA SENHA</a></button>
+            <button style="border: none; margin: 2.5rem auto 0; display: block;"><a style="background-color: #B243F7; border-radius: 2rem; text-decoration: none; padding: 13px 1.8rem; color: #fff; font-size: 13px; font-weight: 500;" target="_blank" href="https://mflix-app.vercel.app/recuperar-senha/${id}">NOVA SENHA</a></button>
           </div>
         </div>
       </div>
