@@ -73,7 +73,7 @@ class App {
   }
 
   corsOptions() {
-    const allowList = ['http://localhost:3000', 'https://mflix-app.vercel.app'];
+    const allowList = ['http://localhost:3000', 'https://mflix-app.vercel.app', 'https://mflix-web-app.herokuapp.com'];
     return {
       origin: function origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia
