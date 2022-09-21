@@ -57,9 +57,15 @@ exports. default = class {
   async storeMyList() {
     this.clearUp();
 
-    try {
-      const { user } = this.body;
+    const { user } = this.body;
 
+    await this.showAllList(user);
+    if (this.errors.length) return;
+
+    if (this.minhaLista.length >= 40)
+      return this.errors.push('Limite maximo de itens atingido.');
+
+    try {
       const existUser = await _userModel.userModel.findById(user);
       if (!existUser) return this.errors.push('Id não existe.');
 
@@ -108,19 +114,16 @@ exports. default = class {
       }
       return;
     }
-    if (typeof ids === 'undefined' && userId) {
-      try {
-        this.minhaLista = await minhaListaModel.deleteMany({
-          user: userId,
-        });
+    try {
+      this.minhaLista = await minhaListaModel.deleteMany({
+        user: userId,
+      });
 
-        if (!this.minhaLista) return this.errors.push('Id não existe.');
+      if (!this.minhaLista) return this.errors.push('Id não existe.');
 
-        return this.minhaLista;
-      } catch (e6) {
-        this.errors.push('Erro ao deletar items de minha lista.');
-      }
-      return;
+      return this.minhaLista;
+    } catch (e6) {
+      this.errors.push('Erro ao deletar items de minha lista.');
     }
     return;
   }

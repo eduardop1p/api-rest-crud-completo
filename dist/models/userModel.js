@@ -1,8 +1,6 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
 var _validator = require('validator/validator');
 var _bcryptjs = require('bcryptjs'); var _bcryptjs2 = _interopRequireDefault(_bcryptjs);
-var _promises = require('fs/promises'); var _promises2 = _interopRequireDefault(_promises);
-var _path = require('path');
 
 /* eslint-disable */
 var _fotoModel = require('./fotoModel');
@@ -48,22 +46,16 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      const allPhotosUser = await _fotoModel.fotoModel.find({ user: id });
-      allPhotosUser.map(async (userPhoto) => {
-        return await _promises2.default.rm(
-          _path.resolve.call(void 0, 
-            __dirname,
-            '..',
-            '..',
-            'uploads',
-            'images',
-            userPhoto.filename
-          ),
-          { force: true }
-        );
+      await minhaListaModel.deleteMany({
+        user: id,
       });
 
-      await _fotoModel.fotoModel.deleteMany({ user: id });
+      const userPhoto = await _fotoModel.fotoModel.findOne({ id });
+      if (userPhoto) {
+        await cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`);
+        await _fotoModel.fotoModel.deleteOne({ id });
+      }
+
       this.user = await userModel.findByIdAndDelete(id);
 
       if (!this.user) return this.errors.push('Id não existe.');

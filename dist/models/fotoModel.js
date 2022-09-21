@@ -33,12 +33,10 @@ exports. default = class {
 
       if (!existUser) return this.errors.push('Id não existe.');
 
-      const allPhotosUser = await fotoModel.find({ user });
-      if (allPhotosUser.length) {
-        allPhotosUser.forEach((userPhoto) =>
-          cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`)
-        );
-        await fotoModel.deleteMany({ user });
+      const userPhoto = await fotoModel.findOne({ user });
+      if (userPhoto) {
+        await cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`);
+        await fotoModel.deleteOne({ user });
       }
 
       this.foto = await fotoModel.create(this.body);

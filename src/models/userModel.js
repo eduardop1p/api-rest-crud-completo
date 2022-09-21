@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator/validator';
 import bcryptjs from 'bcryptjs';
-import fs from 'fs/promises';
-import { resolve } from 'path';
 
 /* eslint-disable */
 import { fotoModel } from './fotoModel';
@@ -48,22 +46,16 @@ export default class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      const allPhotosUser = await fotoModel.find({ user: id });
-      allPhotosUser.map(async (userPhoto) => {
-        return await fs.rm(
-          resolve(
-            __dirname,
-            '..',
-            '..',
-            'uploads',
-            'images',
-            userPhoto.filename
-          ),
-          { force: true }
-        );
+      await minhaListaModel.deleteMany({
+        user: id,
       });
 
-      await fotoModel.deleteMany({ user: id });
+      const userPhoto = await fotoModel.findOne({ id });
+      if (userPhoto) {
+        await cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`);
+        await fotoModel.deleteOne({ id });
+      }
+
       this.user = await userModel.findByIdAndDelete(id);
 
       if (!this.user) return this.errors.push('Id não existe.');
