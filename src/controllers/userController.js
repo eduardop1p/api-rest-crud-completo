@@ -45,9 +45,9 @@ class UserController {
     await userUpdate.updateOneUser(id);
 
     if (userUpdate.errors.length > 0)
-      return res.json({ erros: userUpdate.errors });
+      return res.status(400).json({ errors: userUpdate.errors });
 
-    return res.status(400).json({ user: ['Usuário atualizado com sucesso.'] });
+    return res.json({ user: ['Usuário atualizado com sucesso.'] });
   }
 
   async delete(req, res) {
