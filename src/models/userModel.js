@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator/validator';
 import bcryptjs from 'bcryptjs';
+import cloudinaryV2 from 'cloudinary';
 
 /* eslint-disable */
 import { fotoModel } from './fotoModel';
+import { minhaListaModel } from './minhaListaModel';
 
 const userSchema = new mongoose.Schema({
   nome: { type: String, default: '' },
@@ -52,7 +54,7 @@ export default class {
 
       const userPhoto = await fotoModel.findOne({ id });
       if (userPhoto) {
-        await cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`);
+        await cloudinaryV2.v2.uploader.destroy(`images/${userPhoto.filename}`);
         await fotoModel.deleteOne({ id });
       }
 
@@ -61,7 +63,8 @@ export default class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch {
+    } catch (err) {
+      console.log(err);
       this.errors.push('Erro ao deletar usuário.');
     }
   }

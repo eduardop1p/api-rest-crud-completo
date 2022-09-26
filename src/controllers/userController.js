@@ -54,7 +54,7 @@ class UserController {
     const { id } = req.params;
     if (!id) return res.send();
 
-    const userDelete = new User(req.body);
+    const userDelete = new User();
 
     await userDelete.deleteOneUser(id);
 

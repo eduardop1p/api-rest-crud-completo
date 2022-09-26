@@ -1,9 +1,11 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
 var _validator = require('validator/validator');
 var _bcryptjs = require('bcryptjs'); var _bcryptjs2 = _interopRequireDefault(_bcryptjs);
+var _cloudinary = require('cloudinary'); var _cloudinary2 = _interopRequireDefault(_cloudinary);
 
 /* eslint-disable */
 var _fotoModel = require('./fotoModel');
+var _minhaListaModel = require('./minhaListaModel');
 
 const userSchema = new _mongoose2.default.Schema({
   nome: { type: String, default: '' },
@@ -46,13 +48,13 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      await minhaListaModel.deleteMany({
+      await _minhaListaModel.minhaListaModel.deleteMany({
         user: id,
       });
 
       const userPhoto = await _fotoModel.fotoModel.findOne({ id });
       if (userPhoto) {
-        await cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`);
+        await _cloudinary2.default.v2.uploader.destroy(`images/${userPhoto.filename}`);
         await _fotoModel.fotoModel.deleteOne({ id });
       }
 
@@ -61,7 +63,8 @@ exports. default = class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e2) {
+    } catch (err) {
+      console.log(err);
       this.errors.push('Erro ao deletar usuário.');
     }
   }
@@ -89,7 +92,7 @@ exports. default = class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e3) {
+    } catch (e2) {
       this.errors.push('Erro ao obter usuário.');
     }
   }
@@ -114,7 +117,7 @@ exports. default = class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e4) {
+    } catch (e3) {
       this.errors.push('Erro ao atualizar usuário.');
     }
   }
@@ -140,7 +143,7 @@ exports. default = class {
 
       if (this.user)
         return this.errors.push('Já existe um usuário com este email.');
-    } catch (e5) {
+    } catch (e4) {
       this.errors.push('Erro ao procurar usuário.');
     }
   }

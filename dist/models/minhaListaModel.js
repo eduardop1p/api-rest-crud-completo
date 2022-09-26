@@ -136,3 +136,5 @@ exports. default = class {
     };
   }
 }
+
+exports.minhaListaModel = minhaListaModel;
