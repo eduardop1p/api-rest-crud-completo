@@ -1,10 +1,11 @@
 import { MulterError } from 'multer';
-import { extname } from 'path';
 import cloudinary from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import dotEnv from 'dotenv';
 
 dotEnv.config();
+
+/* eslint-disable */
 
 const randomNumber = () => Math.round(Math.random() * 50000);
 const cloudinaryV2 = cloudinary.v2;

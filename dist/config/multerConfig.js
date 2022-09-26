@@ -1,10 +1,11 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _multer = require('multer');
-var _path = require('path');
 var _cloudinary = require('cloudinary'); var _cloudinary2 = _interopRequireDefault(_cloudinary);
 var _multerstoragecloudinary = require('multer-storage-cloudinary');
 var _dotenv = require('dotenv'); var _dotenv2 = _interopRequireDefault(_dotenv);
 
 _dotenv2.default.config();
+
+/* eslint-disable */
 
 const randomNumber = () => Math.round(Math.random() * 50000);
 const cloudinaryV2 = _cloudinary2.default.v2;
