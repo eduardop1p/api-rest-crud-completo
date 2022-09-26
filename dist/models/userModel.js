@@ -52,10 +52,10 @@ exports. default = class {
         user: id,
       });
 
-      const userPhoto = await _fotoModel.fotoModel.findOne({ id });
+      const userPhoto = await _fotoModel.fotoModel.findOne({ user: id });
       if (userPhoto) {
         await _cloudinary2.default.v2.uploader.destroy(`images/${userPhoto.filename}`);
-        await _fotoModel.fotoModel.deleteOne({ id });
+        await _fotoModel.fotoModel.deleteOne({ user: id });
       }
 
       this.user = await userModel.findByIdAndDelete(id);
