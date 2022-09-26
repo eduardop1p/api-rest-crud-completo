@@ -29,9 +29,7 @@ export default {
     params: async (req, file) => {
       return {
         folder: 'images',
-        public_id: `${Date.now()}_${randomNumber()}${extname(
-          file.originalname
-        )}`,
+        public_id: `${Date.now()}_${randomNumber()}`,
       };
     },
   }),

@@ -29,9 +29,7 @@ exports. default = {
     params: async (req, file) => {
       return {
         folder: 'images',
-        public_id: `${Date.now()}_${randomNumber()}${_path.extname.call(void 0, 
-          file.originalname
-        )}`,
+        public_id: `${Date.now()}_${randomNumber()}`,
       };
     },
   }),
