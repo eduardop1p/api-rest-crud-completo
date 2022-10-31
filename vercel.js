@@ -1,12 +1,17 @@
 {
   "version": 2,
-  "name": "music-album",
+  "name": "api-mflix-app",
   "builds": [
-    { "src": "/dist/index.js",
-    "use": "@vercel/node" }
+    {
+     "src": "dist/index.js",
+     "use": "@vercel/node"
+    }
   ],
   "routes": [
-     { "src": "/(.*)", "dest": "/dist/index.js" }
+    {
+      "src": "/(.*)",
+      "dest": "dist/index.js"
+    }
   ]
 }
 
