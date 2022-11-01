@@ -4,6 +4,8 @@ const { Router } = require('express');
 const app = express();
 const router = Router();
 
+app.use(express.json());
+
 const routerGetHome = router.get('/', (req, res) => {
   try {
     res.json({ success: 'api na homer rodando' });
@@ -27,7 +29,6 @@ const routerGetUser = router.get('/user', (req, res) => {
 
 app.use(routerGetHome);
 app.use(routerGetUser);
-app.use(express.json());
 
 app.listen(4000, () => console.log('sevidor rodando em http://localhost:4000'));
 
