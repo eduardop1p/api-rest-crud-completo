@@ -27,6 +27,8 @@ const routerGetUser = router.get('/api', (req, res) => {
   }
 });
 
+module.exports = app;
+
 app.use(routerGetHome);
 app.use(routerGetUser);
 
