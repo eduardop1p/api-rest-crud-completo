@@ -4,16 +4,16 @@ const { Router } = require('express');
 const app = express();
 const router = Router();
 
-// const routerGetHome = router.get('/', (req, res) => {
-//   try {
-//     res.json({ success: 'api na homer rodando' });
-//   } catch {
-//     res.status(500).json({
-//       error: 'internal server erro',
-//     });
-//   }
-// });
-const routerGetUser = router.get('/api', (req, res) => {
+const routerGetHome = router.get('/', (req, res) => {
+  try {
+    res.json({ success: 'api na homer rodando' });
+  } catch {
+    res.status(500).json({
+      error: 'internal server erro',
+    });
+  }
+});
+const routerGetUser = router.get('/user', (req, res) => {
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   try {
@@ -25,7 +25,7 @@ const routerGetUser = router.get('/api', (req, res) => {
   }
 });
 
-// app.use(routerGetHome);
+app.use(routerGetHome);
 app.use(routerGetUser);
 app.use(express.json());
 
