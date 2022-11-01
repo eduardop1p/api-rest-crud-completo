@@ -4,8 +4,8 @@ const app = express();
 
 app.use(express.json());
 app.use((req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.set('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
 });
 
 app.get('/', (req, res) => {
