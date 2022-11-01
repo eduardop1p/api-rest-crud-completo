@@ -3,10 +3,6 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-app.use((req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-});
 
 app.get('/', (req, res) => {
   try {
@@ -19,6 +15,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   try {
     res.json({ user: { name: 'Eduardo', idade: 20 } });
   } catch {
