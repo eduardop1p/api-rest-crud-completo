@@ -15,7 +15,7 @@ const routerGetHome = router.get('/', (req, res) => {
     });
   }
 });
-const routerGetUser = router.get('/user', (req, res) => {
+const routerGetUser = router.get('/api', (req, res) => {
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   try {
