@@ -3,14 +3,14 @@
   "name": "api-mflix-app",
   "builds": [
     {
-      "src": "./index.js",
-      "use": "@vercel/node"
+      "src": "index.js",
+      "use": "@now/node-server"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.js"
     }
   ]
 }
