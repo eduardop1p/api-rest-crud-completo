@@ -1,14 +1,14 @@
 const express = require('express');
-const { Router } = require('express');
 
 const app = express();
-const router = Router();
 
 app.use(express.json());
+app.use((req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 's-max-age=1, stale-while-revalidate');
+});
 
-const routerGetHome = router.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+app.get('/', (req, res) => {
   try {
     res.json({ success: 'api na homer rodando' });
   } catch {
@@ -17,7 +17,8 @@ const routerGetHome = router.get('/', (req, res) => {
     });
   }
 });
-const routerGetUser = router.get('/api', (req, res) => {
+
+app.get('/user', (req, res) => {
   try {
     res.json({ user: { name: 'Eduardo', idade: 20 } });
   } catch {
@@ -27,11 +28,6 @@ const routerGetUser = router.get('/api', (req, res) => {
   }
 });
 
-module.exports = app;
-
-app.use(routerGetHome);
-app.use(routerGetUser);
-
 app.listen(4000, () => console.log('sevidor rodando em http://localhost:4000'));
 
-// abc
+module.exports = app;
