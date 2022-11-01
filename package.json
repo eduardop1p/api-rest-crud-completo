@@ -1,7 +1,7 @@
 {
-  "name": "api-mflix-app",
+  "name": "mflix-server",
   "version": "1.0.0",
-  "description": "api para meu apicativo de filmes mflix",
+  "description": "server para meu apicativo de filmes mflix",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

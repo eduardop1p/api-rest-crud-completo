@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "api-mflix-app",
+  "name": "mflix-server",
   "builds": [
     {
       "src": "/api",
@@ -10,7 +10,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api"
+      "dest": "/"
     }
   ]
 }

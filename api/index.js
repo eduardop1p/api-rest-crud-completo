@@ -7,6 +7,8 @@ const router = Router();
 app.use(express.json());
 
 const routerGetHome = router.get('/', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   try {
     res.json({ success: 'api na homer rodando' });
   } catch {
@@ -16,8 +18,6 @@ const routerGetHome = router.get('/', (req, res) => {
   }
 });
 const routerGetUser = router.get('/api', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   try {
     res.json({ user: { name: 'Eduardo', idade: 20 } });
   } catch {
