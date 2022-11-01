@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/user', (req, res) => {
+app.get('/api', (req, res) => {
   try {
     res.json({ user: { name: 'Eduardo', idade: 20 } });
   } catch {
