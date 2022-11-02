@@ -1,10 +1,13 @@
 const express = require('express');
+const { Router } = require('express');
 
 const app = express();
+const router = Router();
+app.use(express.json());
 
-app.get('/api/home', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+const home = router.get('/', (req, res) => {
+  // res.setHeader('Content-Type', 'application/json');
+  // res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   try {
     res.json({ success: 'api na homer rodando' });
   } catch {
@@ -14,7 +17,7 @@ app.get('/api/home', (req, res) => {
   }
 });
 
-app.get('/api', (req, res) => {
+const user = router.get('user', (req, res) => {
   try {
     res.json({ user: { name: 'Eduardo', idade: 20 } });
   } catch {
@@ -23,6 +26,9 @@ app.get('/api', (req, res) => {
     });
   }
 });
+
+app.use('/', home);
+app.use('/api', user);
 
 app.listen(4000, () => console.log('sevidor rodando em http://localhost:4000'));
 

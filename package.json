@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "server para meu apicativo de filmes mflix",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
