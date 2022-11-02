@@ -2,8 +2,6 @@ const express = require('express');
 
 const app = express();
 
-app.use(express.json());
-
 app.get('/', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
