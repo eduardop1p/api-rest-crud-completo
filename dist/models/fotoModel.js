@@ -106,7 +106,7 @@ exports. default = class {
     try {
       this.foto = await fotoModel.find({ user: id });
 
-      if (!this.foto.length) return this.errors.push('Id não existe.');
+      if (!this.foto.length) return this.errors.push('Foto já apagada.');
 
       this.foto.forEach((userPhoto) =>
         cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`)

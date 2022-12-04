@@ -3,3 +3,6 @@
 _app2.default.listen(process.env.PORT || 4000, () =>
   console.log(`Sevidor rodando em ${process.env.APP_URL}`)
 );
+
+// comando sucrase abaixo
+// "build": "sucrase ./src -d ./dist --transforms imports",
