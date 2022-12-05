@@ -34,7 +34,19 @@ class UserController {
     if (userShow.errors.length > 0)
       return res.status(400).json({ errors: userShow.errors });
 
-    return res.json(user);
+    const { _id, nome, email, foto } = user;
+    const { cookie } = req.session;
+
+    res.json({
+      _id,
+      nome,
+      email,
+      session: {
+        id: req.sessionID,
+        expires: cookie.expires,
+      },
+      profileUrl: foto.length ? foto[0].url : '',
+    });
   }
 
   async update(req, res) {
