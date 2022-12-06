@@ -2,6 +2,8 @@
 
 // git reset reseta o repositório para o estado do último commit
 
+/* eslint-disable */
+
 class UserController {
   async index(req, res) {
     const usersIndex = new (0, _userModel2.default)();
@@ -34,19 +36,7 @@ class UserController {
     if (userShow.errors.length > 0)
       return res.status(400).json({ errors: userShow.errors });
 
-    const { _id, nome, email, foto } = user;
-    const { cookie } = req.session;
-
-    res.json({
-      _id,
-      nome,
-      email,
-      session: {
-        id: req.sessionID,
-        expires: cookie.expires,
-      },
-      profileUrl: foto.length ? foto[0].url : '',
-    });
+    res.json(user);
   }
 
   async update(req, res) {

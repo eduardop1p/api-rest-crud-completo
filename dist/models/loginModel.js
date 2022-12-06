@@ -15,10 +15,13 @@ exports. default = class {
     if (this.errors.length > 0) return;
 
     try {
-      this.user = await _userModel.userModel.findOne({ email: this.body.email }).populate({
-        path: 'foto',
-        select: ['url'],
-      });
+      this.user = await _userModel.userModel
+        .findOne({ email: this.body.email })
+        .select(['id', 'email', 'nome', 'password', 'foto'])
+        .populate({
+          path: 'foto',
+          select: ['url'],
+        });
 
       if (!this.user) return this.errors.push('Usuário não existe.');
 

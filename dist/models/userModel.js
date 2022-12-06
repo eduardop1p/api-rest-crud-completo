@@ -76,17 +76,10 @@ exports. default = class {
       this.user = await userModel
         .findById(id)
         .sort({ criadoEm: -1 })
-        .select(['email', 'nome', 'minhaLista', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
-        .populate({
-          path: 'minhaLista',
-          select: ['id', 'midiaType', 'user'],
-          options: {
-            sort: { criadoEm: -1 },
-          },
-        })
+        .select(['id', 'email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .populate({
           path: 'foto',
-          select: ['originalname', 'filename', 'url', 'user'],
+          select: ['url'],
         });
 
       if (!this.user) return this.errors.push('Id não existe.');

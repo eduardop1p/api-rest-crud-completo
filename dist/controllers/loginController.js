@@ -14,6 +14,7 @@ class LoginController {
 
     req.session.user = user;
     req.session.save();
+
     const { _id, nome, email, foto } = user;
     const { cookie } = req.session;
 
