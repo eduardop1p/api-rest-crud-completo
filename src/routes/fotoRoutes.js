@@ -7,7 +7,7 @@ const router = Router();
 
 // router.get('/', fotoController.index);
 router.post('/:userId', loginRequired, fotoController.store);
-// router.get('/:userId', loginRequired, fotoController.show);
+router.get('/:userId', loginRequired, fotoController.show);
 // router.put('/:userId', loginRequired, fotoController.update);
 router.delete('/:userId', loginRequired, fotoController.delete);
 

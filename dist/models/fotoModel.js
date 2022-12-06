@@ -69,7 +69,7 @@ exports. default = class {
       this.foto = await fotoModel
         .findOne({ user: id })
         .sort({ criadoEm: -1 })
-        .select(['originalname', 'filename', 'url', 'user']);
+        .select(['url']);
 
       if (!this.foto) return this.errors.push('Id não existe.');
 

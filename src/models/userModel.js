@@ -75,7 +75,6 @@ export default class {
     try {
       this.user = await userModel
         .findById(id)
-        .sort({ criadoEm: -1 })
         .select(['id', 'email', 'nome', 'foto']) // com o .select([]) vou passar um array com as chaves que quero pegar da minha colection
         .populate({
           path: 'foto',
