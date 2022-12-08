@@ -72,7 +72,9 @@ export default class {
       this.minhaLista = await minhaListaModel.create(this.body);
 
       const allMyListUser = await minhaListaModel.find({ user });
-      await userModel.findByIdAndUpdate(user, { minhaLista: allMyListUser });
+      await userModel.findByIdAndUpdate(user, {
+        minhaLista: allMyListUser._id,
+      });
 
       return this.minhaLista;
     } catch {
