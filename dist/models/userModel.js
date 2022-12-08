@@ -13,7 +13,7 @@ const userSchema = new _mongoose2.default.Schema({
   password: { type: String, required: true },
   RepetPassword: { type: String, required: true },
   minhaLista: [{ type: _mongoose2.default.Types.ObjectId, ref: 'Minha lista' }],
-  foto: [{ type: _mongoose2.default.Schema.Types.ObjectId, ref: 'Foto' }],
+  foto: [{ type: _mongoose2.default.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
     default: Date.now,
@@ -39,7 +39,7 @@ exports. default = class {
         .populate('foto', ['originalname', 'filename', 'url', 'user']);
 
       return this.user;
-    } catch (e) {
+    } catch (e2) {
       this.errors.push('Erro ao obter todos os usuários.');
     }
   }
@@ -84,7 +84,7 @@ exports. default = class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e2) {
+    } catch (e3) {
       this.errors.push('Erro ao obter usuário.');
     }
   }
@@ -109,7 +109,7 @@ exports. default = class {
       if (!this.user) return this.errors.push('Id não existe.');
 
       return this.user;
-    } catch (e3) {
+    } catch (e4) {
       this.errors.push('Erro ao atualizar usuário.');
     }
   }
@@ -125,8 +125,13 @@ exports. default = class {
     this.body.password = _bcryptjs2.default.hashSync(this.body.password, saltPassoword);
     this.body.RepetPassword = this.body.password;
 
-    this.user = await userModel.create(this.body);
-    return this.user;
+    try {
+      this.user = await userModel.create(this.body);
+      return this.user;
+    } catch (e) {
+      console.log(e);
+      this.errors.push('Erro ao criar usuário.');
+    }
   }
 
   async userExist() {
@@ -135,7 +140,7 @@ exports. default = class {
 
       if (this.user)
         return this.errors.push('Já existe um usuário com este email.');
-    } catch (e4) {
+    } catch (e5) {
       this.errors.push('Erro ao procurar usuário.');
     }
   }

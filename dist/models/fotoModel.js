@@ -8,7 +8,7 @@ const fotoSchema = new _mongoose2.default.Schema({
   originalname: { type: String, default: '' },
   filename: { type: String, default: '' },
   url: { type: String, default: '' },
-  user: { type: _mongoose2.default.Schema.Types.ObjectId },
+  user: { type: _mongoose2.default.Types.ObjectId, ref: 'User' },
   criadoEm: {
     type: Date,
     default: Date.now,
@@ -29,22 +29,25 @@ exports. default = class {
     try {
       const { user } = this.body;
 
-      const existUser = await _userModel.userModel.findById(user);
+      const userPhoto = await _userModel.userModel
+        .findById(user)
+        .select(['nome', 'foto'])
+        .populate('foto', ['filename']);
 
-      if (!existUser) return this.errors.push('Id não existe.');
+      if (!userPhoto) return this.errors.push('Usuário não existe.');
 
-      const userPhoto = await fotoModel.findOne({ user });
-      if (userPhoto) {
-        await cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`);
+      if (userPhoto.foto.length) {
+        const { foto } = userPhoto;
+        await cloudinaryV2.uploader.destroy(`images/${foto[0].filename}`);
         await fotoModel.deleteOne({ user });
       }
 
       this.foto = await fotoModel.create(this.body);
-
-      await _userModel.userModel.findByIdAndUpdate(user, { foto: this.foto });
+      await _userModel.userModel.findByIdAndUpdate(user, { foto: this.foto.id });
 
       return this.foto;
     } catch (e) {
+      console.log(e);
       this.errors.push('Erro ao adcionar foto.');
     }
   }
@@ -66,12 +69,12 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel
-        .findOne({ user: id })
-        .sort({ criadoEm: -1 })
-        .select(['url']);
+      this.foto = await _userModel.userModel
+        .findById(id)
+        .select(['nome', 'foto'])
+        .populate('foto', ['url']);
 
-      if (!this.foto) return this.errors.push('Id não existe.');
+      if (!this.foto) return this.errors.push('Usuário com foto não existe.');
 
       return this.foto;
     } catch (e3) {
@@ -104,13 +107,15 @@ exports. default = class {
     if (typeof id !== 'string' || !id) return;
 
     try {
-      this.foto = await fotoModel.find({ user: id });
+      this.foto = await _userModel.userModel
+        .findById(id)
+        .select(['nome', 'foto'])
+        .populate('foto', ['url']);
 
       if (!this.foto.length) return this.errors.push('Foto já apagada.');
 
-      this.foto.forEach((userPhoto) =>
-        cloudinaryV2.uploader.destroy(`images/${userPhoto.filename}`)
-      );
+      const { foto } = this.foto;
+      await cloudinaryV2.uploader.destroy(`images/${foto[0].filename}`);
       await fotoModel.deleteMany({ user: id });
 
       return this.foto;

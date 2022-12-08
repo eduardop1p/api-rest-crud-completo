@@ -30,7 +30,6 @@ class FotoController {
         url,
         user,
       });
-
       await userFoto.fotoStore();
       if (userFoto.errors.length > 0) {
         res.status(400).json({ errors: userFoto.errors });
@@ -56,14 +55,18 @@ class FotoController {
     const { userId } = req.params;
     if (!userId) return res.send();
 
-    const userFoto = new (0, _fotoModel2.default)();
+    const Photo = new (0, _fotoModel2.default)();
 
-    const foto = await userFoto.showOneFoto(userId);
+    const userPhoto = await Photo.showOneFoto(userId);
 
-    if (userFoto.errors.length > 0)
-      return res.status(400).json({ errors: userFoto.errors });
+    if (Photo.errors.length > 0)
+      return res.status(400).json({ errors: userPhoto.errors });
 
-    return res.json(foto);
+    return res.json({
+      id: userPhoto._id,
+      nome: userPhoto.nome,
+      foto: { url: userPhoto.foto.length ? userPhoto.foto[0].url : '' },
+    });
   }
 
   async update(req, res) {

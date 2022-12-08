@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   RepetPassword: { type: String, required: true },
   minhaLista: [{ type: mongoose.Types.ObjectId, ref: 'Minha lista' }],
-  foto: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Foto' }],
+  foto: [{ type: mongoose.Types.ObjectId, ref: 'Foto' }],
   criadoEm: {
     type: Date,
     default: Date.now,
@@ -125,8 +125,13 @@ export default class {
     this.body.password = bcryptjs.hashSync(this.body.password, saltPassoword);
     this.body.RepetPassword = this.body.password;
 
-    this.user = await userModel.create(this.body);
-    return this.user;
+    try {
+      this.user = await userModel.create(this.body);
+      return this.user;
+    } catch (e) {
+      console.log(e);
+      this.errors.push('Erro ao criar usuário.');
+    }
   }
 
   async userExist() {
