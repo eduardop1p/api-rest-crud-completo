@@ -62,11 +62,7 @@ class FotoController {
     if (Photo.errors.length > 0)
       return res.status(400).json({ errors: userPhoto.errors });
 
-    return res.json({
-      id: userPhoto._id,
-      nome: userPhoto.nome,
-      foto: { url: userPhoto.foto.length ? userPhoto.foto[0].url : '' },
-    });
+    return res.json(userPhoto);
   }
 
   async update(req, res) {

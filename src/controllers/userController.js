@@ -36,12 +36,7 @@ class UserController {
     if (userShow.errors.length > 0)
       return res.status(400).json({ errors: userShow.errors });
 
-    res.json({
-      id: user._id,
-      nome: user.nome,
-      email: user.email,
-      foto: { url: user.foto.length ? user.foto[0].url : '' },
-    });
+    res.json(user);
   }
 
   async update(req, res) {
