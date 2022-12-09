@@ -75,10 +75,10 @@ class App {
   corsOptions() {
     const allowList = ['http://localhost:3000', 'https://mflix-app.vercel.app'];
     return {
-      origin: function origin(origin) {
+      origin: function origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia
         if (allowList.indexOf(origin) !== -1) {
-          return true;
+          cb(null, true);
         } else {
           cb(console.error('Origem não permitida!'), false);
         }
