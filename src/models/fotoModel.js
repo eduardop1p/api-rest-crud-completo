@@ -114,7 +114,6 @@ export default class {
 
       const { foto } = this.foto;
       if (!foto.length) return this.errors.push('Foto já apagada.');
-      a;
       await cloudinaryV2.uploader.destroy(`images/${foto[0].filename}`);
       await fotoModel.deleteMany({ user: id });
 
