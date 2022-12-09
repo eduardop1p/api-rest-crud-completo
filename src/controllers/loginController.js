@@ -22,11 +22,11 @@ class LoginController {
       _id,
       nome,
       email,
+      foto,
       session: {
         id: req.sessionID,
         expires: cookie.expires,
       },
-      profileUrl: foto.length ? foto[0].url : '',
     });
   }
 }
