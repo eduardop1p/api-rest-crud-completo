@@ -83,6 +83,7 @@ class App {
           cb(console.error('Origem não permitida!'), false);
         }
       },
+      allowedHeaders: ['Content-Type', 'Authorization'],
     };
   }
 }
