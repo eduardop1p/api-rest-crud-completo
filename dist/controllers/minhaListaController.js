@@ -30,9 +30,9 @@ class MinhaListaController {
   }
 
   async store(req, res) {
-    const { id } = req.params;
-    if (!id) return res.send();
-    const user = id;
+    const { userId } = req.params;
+    if (!userId) return res.send();
+    const user = userId;
 
     const minhaListaStore = new (0, _minhaListaModel2.default)({
       id: req.body.id,

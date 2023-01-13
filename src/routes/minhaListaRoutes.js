@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/:userId', loginRequired, minhaListaController.index);
 router.get('/:userId/:id/:midiaType', loginRequired, minhaListaController.show);
-router.post('/:id', loginRequired, minhaListaController.store);
+router.post('/:userId', loginRequired, minhaListaController.store);
 // router.put('/:id', loginRequired, minhaListaController.update);
 router.delete('/:userId', loginRequired, minhaListaController.delete);
 

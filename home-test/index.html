@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    button{
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <button id="post">post</button>
+    <button id="cancel">cancelar</button>
+    <button id="get">get</button>
+    <button id="delete">delete</button>
+    <button id="getAll">getAll</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    axios.defaults.headers.common['Authorization'] = '9NeCiHzV006EyqgBIrYgwUULWwOlX1TR'
+
+
+    const postButton = document.querySelector('#post')
+    const cancelButton = document.querySelector('#cancel')
+    const getButton = document.querySelector('#get')
+    const deleteButton = document.querySelector('#delete')
+    const getAllButton = document.querySelector('#getAll')
+
+    let abortPost = new AbortController();
+
+    async function axiosGetAll(){
+      try{
+        console.log('carregando...')
+        const {data} = await axios.get('http://localhost:4000/minha-lista/62e1863434d575748c3a1d09')
+        console.log(data)
+        console.log('carregado!')
+      }catch(err){
+
+      }
+    }
+
+    async function axiosGet(){
+      try{
+        console.log('carregando...')
+        const {data} = await axios.get('http://localhost:4000/minha-lista/62e1863434d575748c3a1d09/1050957/movie')
+        console.log(data)
+        console.log('carregado!')
+      }catch(err){
+
+      }
+    }
+    async function axiosPost(){
+
+      setTimeout(async () => {
+        try{
+      console.log('adcionado item...')
+      const {data} = await axios.post('http://localhost:4000/minha-lista/62e1863434d575748c3a1d09', {id: '1050957movie', midiaType: 'movie', user: '62e1863434d575748c3a1d09'}, {signal: abortPost.signal, timeout: 5000})
+      console.log(data)
+      console.log('item adcionado!')
+      }catch(err){
+        if(axios.isCancel(err)){
+          console.log('request POST cancelada!')
+          abortPost = new AbortController();
+        }
+      }
+      }, 3000)
+    }
+    async function axiosDetete(){
+      try{
+      console.log('removendo item...')
+      const {data} = await axios.delete('http://localhost:4000/minha-lista/62e1863434d575748c3a1d09?ids=1050957movie')
+      console.log(data)
+      console.log('item removido!')
+      }catch(err){
+
+      }
+    }
+
+    postButton.onclick = () => axiosPost()
+    getButton.onclick = () => axiosGet()
+    deleteButton.onclick = () => axiosDetete()
+    getAllButton.onclick = () => axiosGetAll()
+    cancelButton.onclick = () => abortPost.abort()
+
+  </script>
+</body>
+</html>

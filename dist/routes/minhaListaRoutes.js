@@ -7,7 +7,7 @@ const router = _express.Router.call(void 0, );
 
 router.get('/:userId', _loginRequired2.default, _minhaListaController2.default.index);
 router.get('/:userId/:id/:midiaType', _loginRequired2.default, _minhaListaController2.default.show);
-router.post('/:id', _loginRequired2.default, _minhaListaController2.default.store);
+router.post('/:userId', _loginRequired2.default, _minhaListaController2.default.store);
 // router.put('/:id', loginRequired, minhaListaController.update);
 router.delete('/:userId', _loginRequired2.default, _minhaListaController2.default.delete);
 
