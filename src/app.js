@@ -31,7 +31,17 @@ class App {
     this.app.use(cors(this.corsOptions()));
     this.app.use(this.sessionOptions());
     this.app.use(
-      helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } })
+      helmet({
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+        contentSecurityPolicy: {
+          directives: {
+            frameAncestors: [
+              'http://localhost:3000',
+              'https://eduardo-lavoura.vercel.app',
+            ],
+          },
+        },
+      })
     );
     this.app.use(express.urlencoded({ extended: true }));
     // this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
