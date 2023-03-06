@@ -33,15 +33,6 @@ class App {
     this.app.use(
       helmet({
         crossOriginResourcePolicy: { policy: 'cross-origin' },
-        contentSecurityPolicy: {
-          directives: {
-            frameAncestors: [
-              'http://localhost:3000',
-              'https://eduardo-lavoura.vercel.app',
-            ],
-          },
-          reportOnly: true,
-        },
       })
     );
     this.app.use(express.urlencoded({ extended: true }));
@@ -84,11 +75,7 @@ class App {
   }
 
   corsOptions() {
-    const allowList = [
-      'http://localhost:3000',
-      'https://mflix-app.vercel.app',
-      'https://eduardo-lavoura.vercel.app',
-    ];
+    const allowList = ['http://localhost:3000', 'https://mflix-app.vercel.app'];
     return {
       origin: function origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia
