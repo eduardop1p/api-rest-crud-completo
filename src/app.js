@@ -33,11 +33,6 @@ class App {
     this.app.use(
       helmet({
         crossOriginResourcePolicy: { policy: 'cross-origin' },
-        contentSecurityPolicy: {
-          directives: {
-            frameAncestors: '*',
-          },
-        },
       })
     );
     this.app.use(express.urlencoded({ extended: true }));
