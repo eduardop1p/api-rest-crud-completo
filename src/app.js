@@ -33,6 +33,9 @@ class App {
     this.app.use(
       helmet({
         crossOriginResourcePolicy: { policy: 'cross-origin' },
+        contentSecurityPolicy: {
+          directives: { frameAncestors: ['*'] },
+        },
       })
     );
     this.app.use(express.urlencoded({ extended: true }));
@@ -79,7 +82,7 @@ class App {
     return {
       origin: function origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia
-        if (allowList.indexOf(origin) !== -1) {
+        if (allowList.indexOf(origin) !== -1 || !origin) {
           cb(null, true);
         } else {
           cb(console.error('Origem não permitida!'), false);
