@@ -36,7 +36,7 @@ class App {
         contentSecurityPolicy: {
           directives: {
             frameAncestors: [
-              'http://127.0.0.1:5500/',
+              'http://localhost:3000',
               'https://eduardo-lavoura.vercel.app/',
             ],
           },
@@ -87,7 +87,7 @@ class App {
     return {
       origin: function origin(origin, cb) {
         // !origin para nossa api aceitar a origin do insominia
-        if (allowList.indexOf(origin) !== -1 || !origin) {
+        if (allowList.indexOf(origin) !== -1) {
           cb(null, true);
         } else {
           cb(console.error('Origem não permitida!'), false);
