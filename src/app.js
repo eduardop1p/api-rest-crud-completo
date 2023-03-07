@@ -34,7 +34,12 @@ class App {
       helmet({
         crossOriginResourcePolicy: { policy: 'cross-origin' },
         contentSecurityPolicy: {
-          directives: { frameAncestors: ['*'] },
+          directives: {
+            frameAncestors: [
+              'http://127.0.0.1:5500/',
+              'https://eduardo-lavoura.vercel.app/',
+            ],
+          },
         },
       })
     );
