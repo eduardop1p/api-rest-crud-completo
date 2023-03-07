@@ -37,7 +37,7 @@ class App {
           directives: {
             frameAncestors: [
               'http://localhost:3000',
-              'https://eduardo-lavoura.vercel.app/',
+              'https://eduardo-lavoura.vercel.app',
             ],
           },
         },
