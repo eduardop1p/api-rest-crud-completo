@@ -35,7 +35,9 @@ class App {
         crossOriginResourcePolicy: { policy: 'cross-origin' },
         contentSecurityPolicy: {
           directives: {
-            frameAncestors: ['*'],
+            frameAncestors: [
+              'http://localhost:3000/ https://eduardo-lavoura.vercel.app/',
+            ],
           },
         },
       })
